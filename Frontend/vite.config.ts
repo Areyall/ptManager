@@ -10,17 +10,17 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  // server: {
-  //   proxy: {
-  //     '/api/v1': 'http://localhost:4000',
-  // '/src/main': 'http://localhost'
-  // '/api': 'http://localhost:4000',
-  // '/api': {
-  // 	'/api': 'http://localhost:4000',
-  // 	target: 'http://jsonplaceholder.typicode.com',
-  // 	changeOrigin: true,
-  // 	rewrite: (path) => path.replace(/^\/api/, ''),
-  //   },
-  //   },
-  // },
+  server: {
+    proxy: {
+      '/api/v1': 'http://localhost:4000',
+      // '/src/main': 'http://localhost'
+      // '/api': 'http://localhost:4000',
+      // '/api': {
+      // 	'/api': 'http://localhost:4000',
+      // 	target: 'http://jsonplaceholder.typicode.com',
+      // 	changeOrigin: true,
+      // 	rewrite: (path) => path.replace(/^\/api/, ''),
+      //   },
+    },
+  },
 });
