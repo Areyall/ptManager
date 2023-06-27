@@ -49,5 +49,11 @@ npm i react-router-dom v. 6.14
 
 ### 7) Setup Server
     
+    npm init --yes
+
+    libraries x5+
+
+    .gitignor
+
 
 ### 7) Setup Server
