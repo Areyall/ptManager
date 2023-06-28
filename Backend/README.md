@@ -93,3 +93,51 @@
                         router.route('/job/:id').delete(deleteJob).put(updateJob);
 
                         
+## 8 DataBase models
+        - schema
+        - username, email, password
+
+                const mongoose = require('mongoose');
+                const { Schema } = mongoose;
+
+                const UserSchema = new Schema({
+                username: {
+                type: String,
+                },
+                email: {same},
+                password: {same},
+                });
+
+                const User = mongoose.model('User', UserSchema);
+                module.exports = User;  
+
+        
+        8.1 Register user:
+        - Controller POST verb -> According to the mongoose user Model
+                const userData = await User.create(req.body)
+                        
+        8.2 try catch error handling
+                using next inside handler catch 
+                        next(error) -> which is IF error occurse passed to middleware that handles errors
+
+        npm package -> ExpressJS Async Errors -> handle async
+                npm i express-async-errors // posible prevent crashes
+
+        8.3 Status code
+
+        Optional (200kb)       Constants enumerating the HTTP status codes ->
+                 npm i http-status-codes 
+
+
+        9 Error handling (vast majority registry check)
+                - conditionals at error middlevare
+                - database fields doublecheck, rephrase requirements
+                - conditional error in plase if !value
+
+                / display errors UI, by specific obj.field /
+
+        9.1 Extend Error class
+                class CustomAPIerror extends Error ->
+
+        9.2 Error folder 
+                - use index.js at this folder

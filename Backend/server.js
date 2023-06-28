@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+require('express-async-errors');
 const wrongRoute = require('./middleware/wrongRoure');
 const errorHandlerMiddleware = require('./middleware/ErrorHandler');
 

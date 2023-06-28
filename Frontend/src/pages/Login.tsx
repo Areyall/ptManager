@@ -9,7 +9,7 @@ type FormValues = {
   password: string;
 };
 
-function Register() {
+function Login() {
   const {
     register,
     handleSubmit,
@@ -46,12 +46,30 @@ function Register() {
   }
   return (
     <div className="flex h-screen w-full items-center justify-center bg-base-200">
-      <div className="flex flex-col bg-base-300 p-10">
+      <div className="flex flex-col bg-base-300 min-w-[400px] p-10 gap-4">
         {/* "handleSubmit" will validate your inputs before invoking "onSubmit"  */}
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <h1 className="text-h3">{isMember ? 'Login' : 'Register'}</h1>
+          {/* <h1 className="text-h3">{isMember ? 'Login' : 'Register'}</h1> */}
+          <h1 className='text-3xl'>Login</h1>
           {/* {(errors.name || errors.password || (!isMember && errors.email)) && toast.warning('Fill all fields')} */}
-          {isMember ? (
+
+
+          <input
+                type="text"
+                {...register('name', { required: true })}
+                placeholder="Login"
+                // value={name}
+                // name="name"
+                // onChange={(e) => setName(e.target.value)}
+              />
+          <input
+                type="password"
+                {...register('password', { required: true, minLength: 4 })}
+                placeholder="Password"
+                // value={password}
+                // onChange={(e) => setPassword(e.target.value)}
+              />
+          {/* {isMember ? (
             <div>
               <input
                 type="text"
@@ -75,9 +93,9 @@ function Register() {
               />
               {errors.name && <span>Name field is required</span>}
             </div>
-          )}
+          )} */}
 
-          {isMember ? null : (
+          {/* {isMember ? null : (
             <div>
               <input
                 type="email"
@@ -88,8 +106,8 @@ function Register() {
               />
               {errors.email && <span>Email field is required</span>}
             </div>
-          )}
-
+          )} */}
+{/* 
           {isMember ? (
             <div>
               <input
@@ -112,25 +130,31 @@ function Register() {
               />
               {errors.password && <span>Password field is required</span>}
             </div>
-          )}
+          )} */}
 
 
           <button type="submit" className="btn-outline btn">
             Submit
           </button>
         </form>
-        <div className="pt-8">
-          <p>{isMember ? 'Not a member yet?' : 'Already a member?'}</p>
-          <button
-            onClick={() => seIsMember(!isMember)}
-            className="btn-ghost btn-sm"
-          >
-            {isMember ? 'Register' : 'Login'}
+          <button type="submit" className="btn-outline btn">
+            Demo
           </button>
+        <div className="pt-8">
+          {/* <p>{isMember ? 'Not a member yet?' : 'Already a member?'}</p> */}
+          <div className='tooltip tooltip-bottom' data-tip="Only for a chosen one">
+            {/* <button
+              onClick={() => seIsMember(!isMember)}
+              className="btn-disabled   btn-sm"
+              >
+              {isMember ? 'Register' : 'Login'}
+            </button> */}
+            <button className='btn-disabled btn btn-outline btn-sm '>Register</button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-export default Register;
+export default Login;
