@@ -129,7 +129,7 @@
                  npm i http-status-codes 
 
 
-        9 Error handling (vast majority registry check)
+## 9 Error handling (vast majority registry check)
                 - conditionals at error middlevare
                 - database fields doublecheck, rephrase requirements
                 - conditional error in plase if !value
@@ -141,3 +141,42 @@
 
         9.2 Error folder 
                 - use index.js at this folder
+
+## 10 Crypting and hashing
+                // bcrypt ->  library to help hash the passwords.
+                npm i bcrypt
+
+                - genSalt, hash, compare 
+
+        ++ (mongoDB) mongoose middlevare .pre -> are executed one after another, when each middleware calls next 
+                // Or, in Node.js >= 7.6.0:
+                        schema.pre('save', async function() {
+                        await doStuff();
+                        await doMoreStuff();
+                        });
+
+                10.1 JWT
+                jwt.sign(payload, secretOrPrivateKey, [options, callback])
+                npm i jsonwebtoken
+
+                mongoose Instance methods 
+               // Return JWT token
+                userSchema.methods.getJwtToken = function () {
+                return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+                expiresIn: process.env.JWT_EXPIRES_TIME
+                });
+                }
+
+                + userSchema.methods.getJwtToken/comparePassword -> now available at all userSchema
+
+                const token = User.getJwtToken();
+                res.status(201).json({ userData, token });
+
+                -- new approach
+                 - in model password use  select: false
+                 - to hide password in retuen use ->  .json({
+                user: { username: userData.username, email: userData.email },
+                token,
+                });
+
+
