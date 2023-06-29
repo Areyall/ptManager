@@ -7,7 +7,7 @@ const wrongRoute = require('./middleware/wrongRoure');
 const errorHandlerMiddleware = require('./middleware/ErrorHandler');
 
 const app = express();
-// const dbConfig = require('./config/database');
+const dbConfig = require('./config/database');
 
 app.get('/api/v1', (req, res) => {
   res.send('It`s working');

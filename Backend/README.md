@@ -150,7 +150,7 @@
                 - File Upload Errors:
 
                 UX/UI:
-                
+
 
                 - conditionals at error middlevare
                 - database fields doublecheck, rephrase requirements
@@ -201,23 +201,15 @@
                 token,
                 });
 
+        + COmpare passwords:
+
 ## 11 Proxy
         cors setup -> npm i cors // 5 years old 
 
 
-## 12 HTTP Requests / VERBs for login/register
+## 12 frontend VERBS
 
-        HTTP request logger middleware -> npm i morgan
 
-        npm i axios
-        GET ->  axios.get(url[, config]) // axios.get(url, options) 
-        POST ->  axios.post(url[, data[, config]]) // axios.post(url,resource,options)
-
-        Custom instance defaults
-        // Set config defaults when creating the instance
-                const instance = axios.create({
-                baseURL: 'https://api.example.com'
-                });
 
 
 

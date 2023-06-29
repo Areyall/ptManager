@@ -38,7 +38,7 @@ userSchema.pre('save', async function (next) {
 
   const saltRounds = 10;
   this.password = await bcrypt.hash(this.password, saltRounds);
-  
+
   //bcryptjs
   // const salt = await bcrypt.salt(10)
   // this.password = await bcrypt.hash(this.password, salt)
@@ -49,6 +49,15 @@ userSchema.methods.getJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_TIME,
   });
+};
+userSchema.methods.comparePassword = async function (userPassword) {
+  console.log(userPassword, this.password)
+  // select: false option for the password, have a few options:
+  // Remove the select: false option from the password
+  // Use the select('+password')
+  
+
+  return  await bcrypt.compare(userPassword, this.password);
 };
 
 const User = mongoose.model('User', userSchema);

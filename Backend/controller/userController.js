@@ -1,13 +1,6 @@
+const { BadRequestApi } = require('../Errors/index.js');
 const User = require('../models/user');
-
-class CustomAPIError extends Error {
-  constructor(message) {
-    super(message);
-
-    this.statusCode = 500;
-    // this.statusCode = StatusCode.BAD_REQUEST  if using StatusCode
-  }
-}
+const sendToken = require('../utils/jwtToken.js');
 
 exports.register = async (req, res, next) => {
   const userData = await User.create(req.body);
@@ -19,17 +12,18 @@ exports.register = async (req, res, next) => {
   });
 };
 exports.login = async (req, res) => {
-  const { email, username } = req.body;
-
-  if (!email || !username) {
-    // use error handler for detailed UI
-    // like  return next(new ErrorHandler('Please enter email & password', 400));
-    throw new CustomAPIError('Empty walues was sent');
-    console.log('Empty walues was sent');
-  }
-  // simple dew error handlers
-  // Handle database errors
   try {
+    const { email, password } = req.body;
+    console.log(req.body);
+    if (!email || !password) {
+      // use error handler for detailed UI
+      // like  return next(new ErrorHandler('Please enter email & password', 400));
+      throw new BadRequestApi('Empty walues was sent');
+      // console.log('Empty walues was sent');
+    }
+    // simple dew error handlers
+    // Handle database errors
+
     // Finding user in database
     const user = await User.findOne({ email }).select('+password');
 
@@ -38,13 +32,23 @@ exports.login = async (req, res) => {
     }
 
     // Checks if password is correct or not
-    const isPasswordMatched = await user.comparePassword(password);
+    // const isPasswordMatched = await user.comparePassword(password);
 
-    if (!isPasswordMatched) {
-      return console.log('Invalid Email or Password');
+    // if (!isPasswordMatched) {
+    //   return console.log('Invalid Email or Password');
+    // }
+    // res.send(' login user');
+    // sendToken(user, 200, res);
+    const token = user.getJwtToken();
+    const isOwnPassword = await user.comparePassword(password);
+    console.log(isOwnPassword);
+    if (isOwnPassword) {
+      res.status(200).json({
+        // user: { username: userData.username, email: userData.email },
+        user,
+        token,
+      });
     }
-    res.send(' login user');
-    sendToken(user, 200, res);
 
     // catch block to handle any database-related errors
   } catch (error) {
