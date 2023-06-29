@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
 require('express-async-errors');
 const wrongRoute = require('./middleware/wrongRoure');
 const errorHandlerMiddleware = require('./middleware/ErrorHandler');
@@ -10,7 +12,10 @@ const app = express();
 app.get('/api/v1', (req, res) => {
   res.send('It`s working');
 });
-
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
+app.use(cors());
 app.use(express.json());
 
 //routes

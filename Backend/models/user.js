@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { Schema } = mongoose;
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
   username: {
     type: String,
     require: true,
@@ -15,7 +16,7 @@ const UserSchema = new Schema({
     require: true,
     // validate prop vith npm lib recomended for prod
     trim: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
@@ -23,28 +24,32 @@ const UserSchema = new Schema({
     mixLength: 4,
     maxLength: 20,
     trim: true,
-    select: false
+    select: false,
   },
 });
 
-const User = mongoose.model('User', UserSchema);
-module.exports = User;
-
-
 // Encrypting pass before saving user
 
-    User.pre('save', async ()=>{
-        //in case of pass restoration func
-        if (!this.isModified('password')) {
-            next()
-        }
-        const salt = await bcrypt.salt(10)
-        this.password = await bcrypt.hash(this.password, salt)
-    })
+userSchema.pre('save', async function (next) {
+  //in case of pass restoration func
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  const saltRounds = 10;
+  this.password = await bcrypt.hash(this.password, saltRounds);
+  
+  //bcryptjs
+  // const salt = await bcrypt.salt(10)
+  // this.password = await bcrypt.hash(this.password, salt)
+});
 
 // Return JWT token
 userSchema.methods.getJwtToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_TIME
-    });
-  }
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_TIME,
+  });
+};
+
+const User = mongoose.model('User', userSchema);
+module.exports = User;

@@ -130,6 +130,28 @@
 
 
 ## 9 Error handling (vast majority registry check)
+                - A dead simple ES6 async/await support hack for express-async-errors
+                Optional:
+                -  Boom = require('@hapi/boom'); 
+                -  createError = require('http-errors');
+
+                Advanced:
+                - Centralized Error Handling Middleware:
+                - Custom Error Classes:
+                - Centralized Error Handling Middleware:
+                - Async Error Wrapping:
+                - Handling Errors in Async Functions: Use try/catch
+                - Responding with Error Objects:
+
+                Edges:
+                - Database Errors:
+                - File Upload Errors:
+                - Validation Errors:
+                - File Upload Errors:
+
+                UX/UI:
+                
+
                 - conditionals at error middlevare
                 - database fields doublecheck, rephrase requirements
                 - conditional error in plase if !value
@@ -178,5 +200,25 @@
                 user: { username: userData.username, email: userData.email },
                 token,
                 });
+
+## 11 Proxy
+        cors setup -> npm i cors // 5 years old 
+
+
+## 12 HTTP Requests / VERBs for login/register
+
+        HTTP request logger middleware -> npm i morgan
+
+        npm i axios
+        GET ->  axios.get(url[, config]) // axios.get(url, options) 
+        POST ->  axios.post(url[, data[, config]]) // axios.post(url,resource,options)
+
+        Custom instance defaults
+        // Set config defaults when creating the instance
+                const instance = axios.create({
+                baseURL: 'https://api.example.com'
+                });
+
+
 
 
