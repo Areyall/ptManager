@@ -16,7 +16,7 @@ function Landing() {
                 quis animi quia beatae quibusdam, quisquam quo voluptatum nobis
                 alias eligendi.
               </p>
-              <Link to={'/register'} className="btn btn-primary">Login/Register</Link>
+              <Link to={'/login'} className="btn btn-primary">Login/Register</Link>
             </div>
             <img className="max-w-xl" src="https://i.imgur.com/T6EyjLL.png" alt="Intro image" />
         </div>

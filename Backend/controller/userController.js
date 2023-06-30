@@ -12,19 +12,18 @@ exports.register = async (req, res, next) => {
   });
 };
 exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    console.log(req.body);
-    if (!email || !password) {
-      // use error handler for detailed UI
-      // like  return next(new ErrorHandler('Please enter email & password', 400));
-      throw new BadRequestApi('Empty walues was sent');
-      // console.log('Empty walues was sent');
-    }
-    // simple dew error handlers
-    // Handle database errors
+  const { email, password } = req.body;
+  if (!email || !password) {
+    // use error handler for detailed UI
+    // like  return next(new ErrorHandler('Please enter email & password', 400));
+    throw new BadRequestApi('Empty walues was sent');
+    // console.log('Empty walues was sent');
+  }
+  // simple dew error handlers
+  // Handle database errors
 
-    // Finding user in database
+  // Finding user in database
+  try {
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
@@ -38,21 +37,19 @@ exports.login = async (req, res) => {
     //   return console.log('Invalid Email or Password');
     // }
     // res.send(' login user');
-    // sendToken(user, 200, res);
-    const token = user.getJwtToken();
+    // const token = user.getJwtToken();
     const isOwnPassword = await user.comparePassword(password);
-    console.log(isOwnPassword);
+    if (!isOwnPassword) {
+      throw new BadRequestApi('Wrong Password');
+    }
     if (isOwnPassword) {
-      res.status(200).json({
-        // user: { username: userData.username, email: userData.email },
-        user,
-        token,
-      });
+      sendToken(user, 200, res);
     }
 
     // catch block to handle any database-related errors
   } catch (error) {
-    return console.log('Database error');
+    throw new BadRequestApi('Wrong walues was sent');
+    // return console.log('Database error');
   }
 };
 exports.updateUser = async (req, res) => {

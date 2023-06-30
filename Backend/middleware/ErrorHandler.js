@@ -1,20 +1,20 @@
 const errorHandlerMiddleware = (err, req, res, next) => {
-  console.log(err);
+  console.log('errorhandler ',err);
 
-  const defaultError = {
+  // const defaultError = {
     // statusCode: StatusCodes.INTERNAL_SERVER_ERROR -> npm nackage StatusCodes
-    statusCode: 500,
-    msg: 'Something went wrong',
-  };
+  //   statusCode: 500,
+  //   msg: 'Something went wrong',
+  // };
 
-  if ((err.name = 'ValidationError')) {
-    defaultError.statusCode = 404;
-    defaultError.msg = Object.values(err.errors)
-      .map((e) => e.message)
-      .join(',');
-  }
-  res.status(defaultError.statusCode).json({ msg: defaultError.msg });
-  // res.status(500).json({ msg: 'Loging error' });
+  // if ((err.name = 'ValidationError')) {
+  //   defaultError.statusCode = 404;
+  //   defaultError.msg = Object.values(err.errors)
+  //     .map((e) => e.message)
+  //     .join(',');
+  // }
+  // res.status(defaultError.statusCode).json({ msg: defaultError.msg });
+  res.status(500).json({ msg: 'Loging error' });
 };
 
 module.exports = errorHandlerMiddleware;

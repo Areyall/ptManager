@@ -164,6 +164,10 @@
         9.2 Error folder 
                 - use index.js at this folder
 
+        9.3 Wrong HTTP request / Error HTTP / Wrong credentials
+                errorMiddlevare -> errorHandlerMiddleware
+              return thunkApi.rejectWithValue(error.message);
+
 ## 10 Crypting and hashing
                 // bcrypt ->  library to help hash the passwords.
                 npm i bcrypt
@@ -202,6 +206,11 @@
                 });
 
         + COmpare passwords:
+        this.password
+        return  await bcrypt.compare(userPassword, this.password);
+        // select: false option for the password, have a few options:
+        // Remove the select: false option from the password
+        // Use the select('+password')
 
 ## 11 Proxy
         cors setup -> npm i cors // 5 years old 
@@ -209,6 +218,33 @@
 
 ## 12 frontend VERBS
 
+## 13 Authenfication and verification user
+
+        cookie-parser package is a middleware for Express.js that parses cookies from incoming requests and makes them available in the req.cookies object -> 
+        npm install cookie-parser  -> 
+                const cookieParser = require('cookie-parser');
+                const app = express();
+
+
+         The middleware is responsible for verifying and authenticating the user based on the provided token. -> authMiddleware.js -> const authMiddleware = require('path-to-auth-middleware'); =>
+                router.get('/protected', authMiddleware, (req, res) => {
+                // User is authenticated, handle the request
+                res.json({ message: 'Protected route accessed' });
+                });
+
+                1.User enters their login credentials (username and password) on the login page and submits the form.
+                2.On the backend, the server validates the credentials and generates a JWT token.
+                3.The server sends the generated token back to the client as part of the login response.
+                4.On the client side, the token is received and stored in local storage:
+                5.After storing the token, the user is redirected to a protected route or any other necessary logic.
+                6.In subsequent requests, the token can be included in the Authorization header for authentication:
+                7. On the server side, middleware can be implemented to verify and decode the token, allowing access to protected routes only for authenticated users.
+        // or
+        Just use NextAuth
+
+        CORS and cookie edgecase
+
+        Protected route -> authorized !? redirect
 
 
 

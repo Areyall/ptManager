@@ -60,4 +60,25 @@ export const useAppDispatch: () => AppDispatch = useDispatch
 
 export default store
 
-## 
+## 12 HTTP Requests / VERBs for login/register
+    
+            HTTP request logger middleware -> npm i morgan
+
+            npm i axios
+            GET ->  axios/instance.get(url[, config]) // axios.get(url, options) 
+            POST ->  axios/customAxiosFetch.post(url[, data[, config]]) // axios.post(url,resource,options)
+
+            Custom instance defaults
+            // Set config defaults when creating the instance
+                    const instance = axios.create({
+                    baseURL: 'https://api.example.com'
+                    }); 
+                    //
+                    const customAxiosFetch = axios.create({
+                    baseURL: 'http://127.0.0.1:4000/api/v1'
+                  });
+
+## 14 Dashboard
+   addJob, allJobs,  Profile, Stats
+    
+    

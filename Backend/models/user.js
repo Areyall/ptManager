@@ -51,7 +51,6 @@ userSchema.methods.getJwtToken = function () {
   });
 };
 userSchema.methods.comparePassword = async function (userPassword) {
-  console.log(userPassword, this.password)
   // select: false option for the password, have a few options:
   // Remove the select: false option from the password
   // Use the select('+password')

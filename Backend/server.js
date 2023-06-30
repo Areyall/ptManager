@@ -5,9 +5,14 @@ const morgan = require('morgan');
 require('express-async-errors');
 const wrongRoute = require('./middleware/wrongRoure');
 const errorHandlerMiddleware = require('./middleware/ErrorHandler');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const dbConfig = require('./config/database');
+
+app.use(cors());
+app.use(cookieParser());
+app.use(express.json());
 
 app.get('/api/v1', (req, res) => {
   res.send('It`s working');
@@ -15,8 +20,7 @@ app.get('/api/v1', (req, res) => {
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
-app.use(cors());
-app.use(express.json());
+
 
 //routes
 const auth = require('./routes/userRoutes');

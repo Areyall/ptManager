@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { fetchLogin } from '@/reducers/userReducer';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { addUserToLocalStorage } from '@/utils/localStorage';
+import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,6 +14,13 @@ type FormValues = {
 };
 
 function Login() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { user, token, isAuthenticated, loading, error } = useAppSelector(
+    (store) => store.user,
+  );
+  // console.log("🚀 ~ file: Login.tsx:16 ~ Login ~ data:", data)
+
   const {
     register,
     handleSubmit,
@@ -28,128 +39,70 @@ function Login() {
   const onSubmit: SubmitHandler<FormValues> = (e: any, data: any) => {
     e.preventDefault;
     const fData = watch(data);
-    if (!fData.name || !fData.password || (!isMember && !fData.email)) {
-      toast.warning('Fill all fields');
-      console.log(fData);
-    }
-    if (isMember) {
-      console.log({ name: fData.name, password: fData.password });
-    }
-    if (!isMember) {
-      console.log(fData);
-    }
-    console.log(isMember);
-  };
 
-  {
-    errors.email && <span>Name field is required</span>;
+    dispatch(fetchLogin(fData));
+  };
+  useEffect(() => {
+    if (error) {
+      toast.error('Wrong email or password');
+    }
+    if (isAuthenticated) {
+      addUserToLocalStorage({ user, token });
+    }
+if (localStorage.getItem('pmManUser')) {
+    navigate('/');
   }
+    // if (user ) {
+    //     toast.success('Wellcome')
+    //     navigate('/')
+
+    // }
+  }, [user, error]);
+  
   return (
     <div className="flex h-screen w-full items-center justify-center bg-base-200">
-      <div className="flex flex-col bg-base-300 min-w-[400px] p-10 gap-4">
-        {/* "handleSubmit" will validate your inputs before invoking "onSubmit"  */}
+      <div className="flex min-w-[400px] flex-col gap-4 bg-base-300 p-10">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          {/* <h1 className="text-h3">{isMember ? 'Login' : 'Register'}</h1> */}
-          <h1 className='text-3xl'>Login</h1>
-          {/* {(errors.name || errors.password || (!isMember && errors.email)) && toast.warning('Fill all fields')} */}
-
+          <h1 className="text-3xl">Login</h1>
 
           <input
-                type="text"
-                {...register('name', { required: true })}
-                placeholder="Login"
-                // value={name}
-                // name="name"
-                // onChange={(e) => setName(e.target.value)}
-              />
+            type="text"
+            {...register('email', { required: true })}
+            placeholder="Login"
+            // value={name}
+            // name="name"
+            // onChange={(e) => setName(e.target.value)}
+          />
           <input
-                type="password"
-                {...register('password', { required: true, minLength: 4 })}
-                placeholder="Password"
-                // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
-              />
-          {/* {isMember ? (
-            <div>
-              <input
-                type="text"
-                {...register('name', { required: true })}
-                placeholder="Login"
-                // value={name}
-                // name="name"
-                // onChange={(e) => setName(e.target.value)}
-              />
-              {errors.name && <span>Name field is required</span>}
-            </div>
-          ) : (
-             <div>
-              <input
-                type="text"
-                {...register('name', { required: true })}
-                placeholder="Login"
-                // value={name}
-                // name="name"
-                // onChange={(e) => setName(e.target.value)}
-              />
-              {errors.name && <span>Name field is required</span>}
-            </div>
-          )} */}
-
-          {/* {isMember ? null : (
-            <div>
-              <input
-                type="email"
-                {...register('email', { required: true, minLength: 6 })}
-                placeholder="Email"
-                // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
-              />
-              {errors.email && <span>Email field is required</span>}
-            </div>
-          )} */}
-{/* 
-          {isMember ? (
-            <div>
-              <input
-                type="password"
-                {...register('password', { required: true, minLength: 6 })}
-                placeholder="Password"
-                // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
-              />
-              {errors.password && <span>Password field is required</span>}
-            </div>
-          ) : (
-            <div>
-              <input
-                type="password"
-                {...register('password', { required: true, minLength: 6 })}
-                placeholder="Password"
-                // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
-              />
-              {errors.password && <span>Password field is required</span>}
-            </div>
-          )} */}
-
+            type="password"
+            {...register('password', { required: true, minLength: 4 })}
+            placeholder="Password"
+            // value={password}
+            // onChange={(e) => setPassword(e.target.value)}
+          />
 
           <button type="submit" className="btn-outline btn">
             Submit
           </button>
         </form>
-          <button type="submit" className="btn-outline btn">
-            Demo
-          </button>
+        <button type="submit" className="btn-outline btn">
+          Demo
+        </button>
         <div className="pt-8">
-          {/* <p>{isMember ? 'Not a member yet?' : 'Already a member?'}</p> */}
-          <div className='tooltip tooltip-bottom' data-tip="Only for a chosen one">
+          <div
+            className="tooltip tooltip-bottom"
+            data-tip="Only for a chosen one"
+          >
+            {/* <p>{isMember ? 'Not a member yet?' : 'Already a member?'}</p> */}
             {/* <button
               onClick={() => seIsMember(!isMember)}
               className="btn-disabled   btn-sm"
               >
               {isMember ? 'Register' : 'Login'}
             </button> */}
-            <button className='btn-disabled btn btn-outline btn-sm '>Register</button>
+            <button className="btn-outline btn-disabled btn-sm btn ">
+              Register
+            </button>
           </div>
         </div>
       </div>
