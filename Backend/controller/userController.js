@@ -53,5 +53,24 @@ exports.login = async (req, res) => {
   }
 };
 exports.updateUser = async (req, res) => {
-  res.send(' updateUser user');
+  const { email, username } = req.body;
+
+  if (!email || !username) {
+    throw new BadRequestApi('Provide all values');
+  }
+  
+  // less data -> Model update aproach 2 -> less officient
+  const user = await User.findById(req.user.id);
+
+  user.email = email;
+  user.username = username;
+
+  await user.save()
+
+  const token = user.getJwtToken()
+
+   res.status(200).json({
+    user,
+    token,
+  });
 };

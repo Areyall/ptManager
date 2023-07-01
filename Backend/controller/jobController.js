@@ -13,5 +13,5 @@ exports.updateJob = (req, res) => {
 };
 
 exports.showStatsJob = (req, res) => {
-  res.send(' showStatsJob Job');
+  res.send( req.user);
 };

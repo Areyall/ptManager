@@ -25,9 +25,10 @@ if (process.env.NODE_ENV !== 'production') {
 //routes
 const auth = require('./routes/userRoutes');
 const job = require('./routes/jobRoutes');
+const { isAuthenticatedUser } = require('./middleware/auth');
 
 app.use('/api/v1', auth);
-app.use('/api/v1', job);
+app.use('/api/v1',isAuthenticatedUser, job);
 
 //error middlewares
 app.use(wrongRoute);

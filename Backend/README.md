@@ -246,6 +246,55 @@
 
         Protected route -> authorized !? redirect
 
+## 14 Frontend Dashboard UI
+
+## 15 Protected routes
+
+        Protection is middlevare -> 
+                authMiddlevare = (req, res, next) =>{
+                        logic
+                        next()
+                } ->
+                        router.route('/editOrSomething').get/put(authMiddlevare,edit);
+
+        couple ways to protect routes
+        + localy at routes/uRoute
+        + globaly app.use('url/, authMiddle, uRoute)
+                trying global approach
+                
+                // -> its name of the token/cookie since setup
+
+                const verify = jwt.decode(tokenPmMan, process.env.JWT_SECRET);
+                req.user = await User.findById(verify.id);
+
+        2 approaches to update user data :
+                + const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+                        new: true,
+                        ...some other options
+                        });
+                +const user = await User.findById(req.user.id);
+                        user.email = email;
+                        ... some other fields
+                        await user.save();
+
+         approach 1 performs the update in a single database operation, while approach 2 involves retrieving the user first, modifying the properties, and then saving the changes separately. Approach 1 may be more efficient and concise, especially if you have additional fields or complex validation logic.
+
+         optimizations or/and modifications:
+         +      Validation       library like "Joi"
+         +      Separate Update and Save:  skips the retrieval of the user object.
+                        await User.updateOne({ _id: req.user.id }, { $set: { email, username } });
+                        const user = await User.findById(req.user.id);
+        +       Selective Field Updates: additional fields object and you only want to update specific fields
+                const { email, username } = newUserData;
+                await User.findByIdAndUpdate(req.user.id, { email, username }, { new: true, runValidators: true });
+                const user = await User.findById(req.user.id);
+        + Error Handling:
+                try{ logic }
+                 catch (error) {
+                        // Handle error
+                        console.error(error);
+                        res.status(500).json({ error: 'Server Error' });}
+                                
 
 
 

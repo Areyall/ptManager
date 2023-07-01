@@ -18,14 +18,13 @@ const App = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} >
-          <Route path="addjob" element={<AddJob />} />
-          <Route path="alljobs" element={<AllJobs />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="stats" element={<Stats />} />
+          <Route path="/" element={<Dashboard />}>
+            <Route path="addjob" element={<AddJob />} />
+            <Route path="alljobs" element={<AllJobs />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="stats" element={<Stats />} />
+          </Route>
 
-          </Route  > 
-            
           <Route path="intro" element={<Landing />} />
           <Route path="login" element={<Login />} />
           <Route path="*" element={<Error />} />

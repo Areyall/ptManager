@@ -80,5 +80,11 @@ export default store
 
 ## 14 Dashboard
    addJob, allJobs,  Profile, Stats
-    
+
+   14.1 navbar, sidebars
+
+   14.2 Sidebar style and navigation setup
+    - Optimization render list of buttons with .map
+   
+
     
