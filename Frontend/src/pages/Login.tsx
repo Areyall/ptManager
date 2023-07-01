@@ -19,7 +19,6 @@ function Login() {
   const { user, token, isAuthenticated, loading, error } = useAppSelector(
     (store) => store.user,
   );
-  // console.log("🚀 ~ file: Login.tsx:16 ~ Login ~ data:", data)
 
   const {
     register,

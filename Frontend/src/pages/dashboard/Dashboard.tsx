@@ -3,16 +3,21 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 import SideNav from './components/SideNav';
 import TopNavBar from './components/TopNavBar';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { fetchUserLoad } from '@/reducers/userReducer';
 
 function Dashboard() {
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch()
+  const { user } = useAppSelector((store: RootState) => store.user);
   useEffect(() => {
+    
+    dispatch(fetchUserLoad())
+
     if (!localStorage.getItem('pmManUser')) {
       navigate('/intro');
     }
-  }, []);
-
+  }, [user?.username]);
   return (
     <>
       <div className="flex w-full flex-row">
@@ -23,7 +28,6 @@ function Dashboard() {
           <TopNavBar />
           <div className="p-4">
             <Outlet />
-          DashBoard
           </div>
         </div>
       </div>

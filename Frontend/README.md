@@ -86,5 +86,15 @@ export default store
    14.2 Sidebar style and navigation setup
     - Optimization render list of buttons with .map
    
+## 15 Back protected routes
 
+## 16
+  Profile update page
+    Steps: 
+      + include global store
+      + useState
+      + make form to collect data with submit ->
+          ++ submit logic function
+      
+      ?+ patches: useForm() 'react-hook-form' 
     

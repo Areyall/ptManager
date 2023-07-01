@@ -1,11 +1,11 @@
 import customAxiosFetch from '@/utils/axiosBaseUrl';
 import { createAsyncThunk, createAction, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 
 // import axios from 'axios'
 
 const fetchLoginAction = createAction('user/loginUser');
+const fetchUserLoadAction = createAction('user/userData');
+const fetchUserEdinAction = createAction('user/userEditData');
 
 // Authentication slice
 
@@ -35,9 +35,31 @@ export const fetchLogin = createAsyncThunk(
   },
 );
 
+
+export const fetchUserLoad = createAsyncThunk(
+  fetchUserLoadAction as unknown as string,
+  async () => {
+    const response = await customAxiosFetch.get('/user/me');
+    return response.data.user;
+  },
+);
+
+export const fetchUserUpdate = createAsyncThunk(
+  fetchUserEdinAction as unknown as string,
+  async (fData:object) => {
+    const response = await customAxiosFetch.put('/user/updateUser',fData);
+    console.log(response)
+    return response.data.user;
+  },
+);
+interface User {
+  email: string;
+  username: string;
+}
+
 interface UserSliceState {
   loading: boolean;
-  user: null;
+  user: User | null;
   isAuthenticated: boolean;
   token: string;
   error: any;
@@ -96,22 +118,38 @@ export const userSlice = createSlice({
     // 			state.error = action.payload
     // 		})
 
-    // 	// fetchUserLoad
-    // 	builder
-    // 		.addCase(fetchUserLoad.pending, (state, action) => {
-    // 			state.loading = true
-    // 			state.isAuthenticated = false
-    // 		})
-    // 		.addCase(fetchUserLoad.fulfilled, (state, action) => {
-    // 			state.loading = false
-    // 			state.isAuthenticated = true
-    // 			state.user = action.payload
-    // 		})
-    // 		.addCase(fetchUserLoad.rejected, (state, action) => {
-    // 			state.loading = false
-    // 			state.isAuthenticated = false
-    // 			state.user = null
-    // 		})
+    // fetchUserLoad
+    builder
+      .addCase(fetchUserLoad.pending, (state, action) => {
+        state.loading = true;
+        state.isAuthenticated = false;
+      })
+      .addCase(fetchUserLoad.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(fetchUserLoad.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      });
+
+    builder
+      .addCase(fetchUserUpdate.pending, (state, action) => {
+        state.loading = true;
+        state.isAuthenticated = false;
+      })
+      .addCase(fetchUserUpdate.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(fetchUserUpdate.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      });
 
     // 	// Logout
     // 	builder
@@ -131,3 +169,4 @@ export const userSlice = createSlice({
 });
 
 // export const { ShowLoading } = userSlice.actions;
+// export const { ReloadData } = userSlice.actions
