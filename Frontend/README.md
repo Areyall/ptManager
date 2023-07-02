@@ -91,7 +91,7 @@ export default store
     Protected routes component:
       + Require user  after initiating <ProtectedRoute>
       initiation:
-      
+
         if (!isAuthenticated ) {
 			dispatch(fetchUserLoad()).unwrap().catch((error) => {
 			  console.error('Error fetching user data:', error);
@@ -149,6 +149,27 @@ export default store
               res.status(401).json({ message: 'Unauthorized' });
             }
           };
+
+        + Axios interceptors intercept and modify the request or response before they are handled,  two types of interceptors: request interceptors and response interceptors:
+          + Request - allow you to modify the request headers, data, or perform any other necessary operations before the request is sent; can be useful for adding authorization headers, logging requests, or performing request transformations.
+              axios.interceptors.request.use(
+               prop1) callback function that receives the request configuration object
+                function (config) {
+                  // Modify request config
+                  config.headers.Authorization = 'Bearer <token>';
+                  // Perform other operations
+                  return config;},
+               prop2)  an optional error handler function that will be called if there is an error during the request interception
+                function (error) {
+                  // Handle request error
+                  return Promise.reject(error); } );
+
+          + Response interceptors functions that are executed after the response is received but before the response is passed to the application code.:
+            -> Silimilar logic to request
+
+## 16 Backend Job Model
+
+## 17 Job redux slices
 
 
 

@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch,useSelector, TypedUseSelectorHook  } from 'react-redux';
 import { userSlice } from './reducers/userReducer';
+import { jobSlice } from './reducers/jobReducer';
 
 const rootReducer = combineReducers({
- user : userSlice.reducer
+ user : userSlice.reducer,
+ job : jobSlice.reducer
 });
 
 const store = configureStore({

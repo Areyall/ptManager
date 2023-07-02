@@ -7,10 +7,11 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    // "noEmit": true,
+    // "jsx": "react-jsx",
     "jsx": "react-jsx",
     "allowJs": false,
     "esModuleInterop": true,
@@ -26,5 +27,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src"]
+  "include": ["./src", "./src/**/*"]
 }

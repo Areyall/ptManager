@@ -6,12 +6,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 type FormValues = {
   username: string;
   email: string;
+  mode: any;
 };
 
-interface Item {
-  email: string;
-  username: string;
-}
 function Profile() {
   const {
     register,
@@ -20,23 +17,24 @@ function Profile() {
     formState: { errors },
   } = useForm<FormValues>();
 
+  // const { onChange, onBlur, name, ref } = register('username');
+
   const { user } = useAppSelector((store: RootState) => store.user);
   const dispatch = useAppDispatch();
 
-  const [newName, setName] = useState(user?.email ?? '');
-  const [newEmail, setEmail] = useState(user?.username ?? '');
+  const [newName, setName] = useState(user?.email);
+  const [newEmail, setEmail] = useState(user?.username);
 
   const onSubmit: SubmitHandler<FormValues> = async (e: any, data: any) => {
     e.preventDefault;
     const fData = watch(data);
-console.log(fData)
     dispatch(fetchUserUpdate(fData));
   };
 
   return (
     <>
-      <div className='bg-base-200 p-8'>
-        <div className=" m-auto max-w-2xl bg-base-200p-4 rounded">
+      <div className="bg-base-200 p-8">
+        <div className=" bg-base-200p-4 m-auto max-w-2xl rounded">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-4"
@@ -47,22 +45,26 @@ console.log(fData)
                 Email:
                 <input
                   type="email"
-                  // value={newName}
-                  {...register('email', { required: true, minLength: 4 })}
-                  placeholder={newName}
+                  value={newName}
+                  {...register('email', {
+                    onChange: (e) => setName(e.target.value),
+                  })}
+                  // placeholder={newName}
                 />
               </div>
               <div>
                 Username:
                 <input
                   type="text"
-                  // value={newEmail}
-                  {...register('username', { required: true, minLength: 3 })}
-                  placeholder={newEmail}
+                  value={newEmail}
+                  {...register('username', {
+                    onChange: (e) => setEmail(e.target.value),
+                  })}
+                  // placeholder={newEmail}
                 />
               </div>
             </div>
-            <button type="submit" className="btn-outline max-w-[210px] btn">
+            <button type="submit" className="btn-outline btn max-w-[210px]">
               Submit
             </button>
           </form>

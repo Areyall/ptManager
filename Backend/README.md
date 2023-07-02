@@ -295,6 +295,12 @@
                         console.error(error);
                         res.status(500).json({ error: 'Server Error' });}
                                 
+## 16 Job logic
+        + model: jobSchema
+                company, position,status,type,location,date,comment
+                
+        + controller:
+                
 
 
 
