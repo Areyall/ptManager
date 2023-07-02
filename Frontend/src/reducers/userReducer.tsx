@@ -35,7 +35,6 @@ export const fetchLogin = createAsyncThunk(
   },
 );
 
-
 export const fetchUserLoad = createAsyncThunk(
   fetchUserLoadAction as unknown as string,
   async () => {
@@ -46,15 +45,17 @@ export const fetchUserLoad = createAsyncThunk(
 
 export const fetchUserUpdate = createAsyncThunk(
   fetchUserEdinAction as unknown as string,
-  async (fData:object) => {
-    const response = await customAxiosFetch.put('/user/updateUser',fData);
-    console.log(response)
+  async (fData: object) => {
+    const response = await customAxiosFetch.put('/user/updateUser', fData);
+
     return response.data.user;
   },
 );
 interface User {
   email: string;
   username: string;
+  user: object;
+  isAuthenticated: boolean;
 }
 
 interface UserSliceState {
@@ -77,9 +78,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: USER_INITIAL_STATE,
   reducers: {
-    // ShowLoading: (state, action) => {
-    //   state.loading = action.payload;
-    // },
+    InitialLoading: (state, action) => {
+      state.isAuthenticated = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -168,5 +169,5 @@ export const userSlice = createSlice({
   },
 });
 
-// export const { ShowLoading } = userSlice.actions;
+export const { InitialLoading } = userSlice.actions;
 // export const { ReloadData } = userSlice.actions

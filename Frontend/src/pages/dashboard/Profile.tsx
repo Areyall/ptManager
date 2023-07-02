@@ -48,7 +48,7 @@ console.log(fData)
                 <input
                   type="email"
                   // value={newName}
-                  {...register('email', { minLength: 4 })}
+                  {...register('email', { required: true, minLength: 4 })}
                   placeholder={newName}
                 />
               </div>
@@ -57,12 +57,12 @@ console.log(fData)
                 <input
                   type="text"
                   // value={newEmail}
-                  {...register('username', { minLength: 3 })}
+                  {...register('username', { required: true, minLength: 3 })}
                   placeholder={newEmail}
                 />
               </div>
             </div>
-            <button type="submit" className="btn-outline btn">
+            <button type="submit" className="btn-outline max-w-[210px] btn">
               Submit
             </button>
           </form>

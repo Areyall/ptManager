@@ -86,10 +86,26 @@ export default store
    14.2 Sidebar style and navigation setup
     - Optimization render list of buttons with .map
    
-## 15 Back protected routes
+## 15 Back protected routes + Frontend
 
-## 16
-  Profile update page
+    Protected routes component:
+      + Require user  after initiating <ProtectedRoute>
+      initiation:
+      
+        if (!isAuthenticated ) {
+			dispatch(fetchUserLoad()).unwrap().catch((error) => {
+			  console.error('Error fetching user data:', error);
+			}); }}}, [isAuthenticated, dispatch])
+
+      then:
+         useEffect(() => {
+          if (!isAuthenticated ) {
+            navigate('/login');
+          }
+          }, []);
+
+## 16 Profile update page
+  
     Steps: 
       + include global store
       + useState
@@ -97,4 +113,43 @@ export default store
           ++ submit logic function
       
       ?+ patches: useForm() 'react-hook-form' 
-    
+
+## 17 HTTP Requests settings
+    cases where you may need to send header:
+      1.Authorization: send an authorization token with your request
+          // If you are using cookies for authentication, you typically don't need to include the Authorization header explicitly in your requests //
+
+      2. Content-Type: When sending data in the request body Specifies the media type:
+            'Content-Type: application/json' for JSON data
+            'Content-Type: application/x-www-form-urlencoded' for URL-encoded form data
+            'Content-Type: multipart/form-data' for multipart/form-data
+      3. Accept: If you expect a specific response format from the server
+      4. Custom headers:
+
+        1.1 authorization via an Authorization header
+        +Frontend 
+          const response = await axios.put('/user/updateUser', fData, {
+            headers: {
+              Authorization: `Bearer ${token}`, },});
+        
+        +Backend 
+            const updateUser = async (req, res) => {
+            const { authorization } = req.headers;
+            // Extract the token from the Authorization header
+            const token = authorization && authorization.split(' ')[1];
+            // Validate and decode the token (e.g., using jsonwebtoken library)
+            try {
+              const decoded = jwt.verify(token, secretKey);
+              // Access the user ID from the decoded token
+              const userId = decoded.userId;
+              // Continue with updating the user profile
+              // ...
+            } catch (error) {
+              // Handle invalid/expired token error
+              res.status(401).json({ message: 'Unauthorized' });
+            }
+          };
+
+
+
+              

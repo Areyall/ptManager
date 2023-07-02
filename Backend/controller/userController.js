@@ -52,24 +52,34 @@ exports.login = async (req, res) => {
     // return console.log('Database error');
   }
 };
+
+exports.getUserProfile = async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+};
+
 exports.updateUser = async (req, res) => {
   const { email, username } = req.body;
 
   if (!email || !username) {
     throw new BadRequestApi('Provide all values');
   }
-  
+
   // less data -> Model update aproach 2 -> less officient
   const user = await User.findById(req.user.id);
 
   user.email = email;
   user.username = username;
 
-  await user.save()
+  await user.save();
 
-  const token = user.getJwtToken()
+  const token = user.getJwtToken();
 
-   res.status(200).json({
+  res.status(200).json({
     user,
     token,
   });

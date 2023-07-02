@@ -7,18 +7,21 @@ npm degit royrao2333/template-vite-react-ts-tailwind frontend
 npm npm i -D daisyui@latest
 
 ### 2) Setup Landing
+
 - Logo, img
 - Into
 - Buttons
 
 ### 3) Setup pages
+
 - create Index, err, reg, dashboard pages
-- return 
+- return
 
 ### 4) Setup React Roter `details in FE READ..`
 
 npm i react-router-dom v. 6.14
-- setup routes 
+
+- setup routes
 
 ### 5) Setup Error page
 
@@ -39,7 +42,7 @@ npm i react-router-dom v. 6.14
         - depending on isMember decide what form fields to show and fetch
 
     6.3 Notifications
-        - react toastify 
+        - react toastify
         import { ToastContainer, toast } from 'react-toastify';
         import 'react-toastify/dist/ReactToastify.css';
         <ToastContainer position={? ?}>
@@ -48,12 +51,24 @@ npm i react-router-dom v. 6.14
         npm install @reduxjs/toolkit react-redux  - `x2 components`
 
 ### 7) Setup Server
-    
+
     npm init --yes
 
     libraries x5+
 
     .gitignor
 
-
 ### 7) Setup Server
+
+## TYPESCRIP 15 frontend
+
+const {user}=useAppSelector( (store : RootState) => store.user)
+const [newName, setName] = useState(user?.email ?? '');
+
+        interface User {
+    email: string;
+    // Other user properties
+    }
+    interface UserSliceState {
+    user: User | null; // Update the type to the specific User interface
+    }

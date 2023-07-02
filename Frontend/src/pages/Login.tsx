@@ -1,4 +1,4 @@
-import { fetchLogin } from '@/reducers/userReducer';
+import { fetchLogin, fetchUserLoad } from '@/reducers/userReducer';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { addUserToLocalStorage } from '@/utils/localStorage';
 import { useEffect, useState } from 'react';
@@ -42,13 +42,14 @@ function Login() {
     dispatch(fetchLogin(fData));
   };
   useEffect(() => {
+    // if (!user) {
+		// 	dispatch(fetchUserLoad());
+		//   }
     if (error) {
       toast.error('Wrong email or password');
     }
-    if (isAuthenticated) {
-      addUserToLocalStorage({ user, token });
-    }
-if (localStorage.getItem('pmManUser')) {
+    
+if (isAuthenticated) {
     navigate('/');
   }
     // if (user ) {

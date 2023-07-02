@@ -9,6 +9,7 @@ exports.isAuthenticatedUser = async (req, res, next) => {
   const { tokenPmMan } = req.cookies;
   if (!tokenPmMan) {
     throw new BadRequestApi('Autorize first');
+    // return res.redirect('/login');
   }
   try {
     
