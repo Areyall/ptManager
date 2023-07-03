@@ -3,7 +3,7 @@ import { createAsyncThunk, createAction, createSlice } from '@reduxjs/toolkit';
 
 // import axios from 'axios'
 
-const fetchJobAction = createAction('user/loginUser');
+const fetchJobAction = createAction('job/jobDetails');
 
 export const fetchJob = createAsyncThunk(
   fetchJobAction as unknown as string,
@@ -27,11 +27,12 @@ export const fetchJob = createAsyncThunk(
 interface Job {
   company: string;
   position: string;
-  type: string[];
-  status: string[];
-  location: string;
-  date: string;
-  comment: string;
+  jobType: string;
+  jobStatus: string;
+  jobStage: string;
+  jobLocation: string;
+  jobConnectionDate: string;
+  jobComment: string;
 }
 
 interface jobSliceState {
@@ -44,11 +45,12 @@ const JOB_INITIAL_STATE: jobSliceState = {
   job: {
     company: '',
     position: '',
-    type: ['internship', 'remote', 'part-time', 'full-time'],
-    status: ['connected', 'pending', 'feedback', 'interview', 'declined'],
-    location: '',
-    date: '',
-    comment: '',
+    jobType: '',
+    jobStatus: '',
+    jobStage: '',
+    jobLocation: '',
+    jobConnectionDate: '',
+    jobComment: '',
   },
 };
 
@@ -68,7 +70,7 @@ export const jobSlice = createSlice({
       })
       .addCase(fetchJob.fulfilled, (state, action) => {
         // state.isEditing = true;
-        state.job = action.payload;
+        state.job = action.payload.job;
       })
       .addCase(fetchJob.rejected, (state, action) => {
         // state.isEditing = false;

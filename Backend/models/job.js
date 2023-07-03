@@ -13,28 +13,33 @@ const jobSchema = new Schema(
       required: [true, 'provide position'],
       maxlength: 50,
     },
-    status: {
+    jobStatus: {
       type: String,
-      enum: ['connected', 'pending', 'feedback', 'interview', 'declined'],
-      default: 'connected',
+      enum: ['Connected', 'Pending', 'Feedback', 'Interview', 'Declined', 'Aproved'],
+      default: 'Connected',
     },
     jobType: {
       type: String,
-      enum: ['internship', 'remote', 'part-time', 'full-time'],
-      default: 'part-time',
+      enum: ['Internship', 'Remote', 'Part-time', 'Full-time'],
+      default: 'Part-time',
+    },
+    jobStage: {
+      type: String,
+      enum: ['1st', '2nd', '3rd', 'Deep'],
+      default: '1st',
     },
     jobLocation: {
       type: String,
       default: 'Kyiv',
       maxlength: 50,
     },
-    connectionDate: {
+    jobConnectionDate: {
       type: String,
       maxlength: 50,
     },
     jobComment: {
       type: String,
-      maxlength: 550,
+      maxlength: 1550,
     },
   },
   { timestamps: true }
