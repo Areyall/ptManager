@@ -15,7 +15,14 @@ const jobSchema = new Schema(
     },
     jobStatus: {
       type: String,
-      enum: ['Connected', 'Pending', 'Feedback', 'Interview', 'Declined', 'Aproved'],
+      enum: [
+        'Connected',
+        'Pending',
+        'Feedback',
+        'Interview',
+        'Declined',
+        'Aproved',
+      ],
       default: 'Connected',
     },
     jobType: {
@@ -40,6 +47,10 @@ const jobSchema = new Schema(
     jobComment: {
       type: String,
       maxlength: 1550,
+    },
+    createdBy: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

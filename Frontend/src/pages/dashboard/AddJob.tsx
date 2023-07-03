@@ -1,4 +1,4 @@
-import { fetchJob } from '@/reducers/jobReducer';
+import { fetchCreateJob } from '@/reducers/jobReducer';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import { useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -17,6 +17,8 @@ type FormValues = {
 
 function AddJob() {
   const { job } = useAppSelector((store: RootState) => store.job);
+  const { user } = useAppSelector((store: RootState) => store.user);
+  
 
   const [newCompany, setNewCompany] = useState(job?.company || '');
   const [newPosition, setNewPosition] = useState(job?.position || '');
@@ -39,9 +41,8 @@ function AddJob() {
   const onSubmit: SubmitHandler<FormValues> = async (e: any, data: any) => {
     e.preventDefault;
     const fData = watch(data);
-    console.log('🚀 ~ fData:', fData);
 
-    dispatch(fetchJob(fData));
+    dispatch(fetchCreateJob({...fData,createdBy:user?._id}));
   };
   return (
     <>
@@ -207,6 +208,13 @@ function AddJob() {
             </button>
           </form>
         </div>
+            <button
+            disabled={true}
+              type="button"
+              className=" btn-outline btn m-auto min-w-[150px] max-w-[210px] rounded-none"
+            >
+              Clear
+            </button>
       </div>
     </>
   );

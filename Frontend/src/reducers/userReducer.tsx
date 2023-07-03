@@ -52,6 +52,7 @@ export const fetchUserUpdate = createAsyncThunk(
   },
 );
 interface User {
+  _id: string,
   email: string;
   username: string;
   user: object;
