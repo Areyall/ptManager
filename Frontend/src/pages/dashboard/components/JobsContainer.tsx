@@ -9,7 +9,7 @@ function JobsContainer() {
   const { jobs, totalJobs, page, isLoading, numOfPages } = useAppSelector(
     (store: RootState) => store.jobs,
   );
-  console.log('🚀 ~ jobs:', jobs);
+  console.log('🚀 ~ jobLink:', jobs);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -22,14 +22,21 @@ function JobsContainer() {
     return <h2>No jobs to display</h2>;
   }
   return (
-    <div>
-      {isLoading ? <Loading /> : `${totalJobs} Jobs Found`}
-      <div className="grid grid-cols-2">
+    <div className='max-w-4xl m-auto'>
+      {isLoading ? <Loading /> : <h2 className='text-2xl font-semi-bold'>{totalJobs} Jobs Found</h2>}
+      <div className="grid grid-cols-2 gap-4">
         {jobs?.map((job: any, inx: number) => (
           <JobCard
             key={job._id}
             company={jobs[inx].company}
             updatedAt={jobs[inx].updatedAt.slice(0, 10)}
+            jobLink="https://aykyiv.vercel.app/"
+            status={jobs[inx].status}
+            position={jobs[inx].position}
+            jobType={jobs[inx].jobType}
+            jobStatus={jobs[inx].jobStatus}
+            jobStage={jobs[inx].jobStage}
+            jobLocation={jobs[inx].jobLocation}
           />
         ))}
       </div>

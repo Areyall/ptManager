@@ -170,6 +170,7 @@ export default store
 ## 16 Backend Job Model
 
 ## 17 Job redux slices
+  separate slice + logic
 
 
 

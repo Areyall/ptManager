@@ -32,6 +32,7 @@ interface Job {
   jobStatus: string;
   jobStage: string;
   jobLocation: string;
+  jobLink: string;
   jobConnectionDate: string;
   jobComment: string;
 }
@@ -50,6 +51,7 @@ const JOB_INITIAL_STATE: jobSliceState = {
     jobStatus: '',
     jobStage: '',
     jobLocation: '',
+    jobLink: '',
     jobConnectionDate: '',
     jobComment: '',
   },
