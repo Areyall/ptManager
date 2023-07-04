@@ -48,6 +48,10 @@ const jobSchema = new Schema(
       type: String,
       maxlength: 1550,
     },
+    jobLink: {
+      type: String,
+      maxlength: 100,
+    },
     createdBy: {
       type: String,
       required: true,

@@ -16,6 +16,7 @@ interface IFormValues {
   jobType: string;
   jobStatus: string;
   jobStage: string;
+  jobLink: string;
   jobLocation: string;
   jobConnectionDate: string;
   jobComment: string;

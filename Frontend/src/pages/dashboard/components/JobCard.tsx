@@ -1,4 +1,5 @@
 import React from 'react';
+import Icon from './elements/icon';
 interface Props {
   company: string;
   updatedAt: string;
@@ -36,30 +37,32 @@ function JobCard({
   return (
     <>
       <div className="w-full relative  p-4 py-7 rounded-md bg-base-300 ">
-      <div className=" absolute top-2 text-gray-400 right-3">{updatedAt}</div>
+      <div className=" absolute top-2 text-gray-400 right-3 inline-flex text-center"><Icon icon={'date'}/>{updatedAt}</div>
         {/* <div className="w-full "></div> */}
         <div className="flex flex-row ">
           <div className="w-1/3 ">
-            <div className="flex m-auto h-[60px] w-[60px]  items-center justify-center rounded-xl bg-accent text-2xl">
+            <div className="flex m-auto h-[60px] w-[60px] font-bold items-center justify-center rounded-xl bg-accent text-2xl">
               {company.charAt(0)}
             </div>
           </div>
-          <div className="w-2/3 flex items-center gap-1  flex-col">
-            <a href={jobLink} className="link-accent link text-3xl font-semibold">
+          <div className="w-2/3 flex items-start gap-1  flex-col">
+
+            <div className="text-3xl font-semibold text-base-content"> {position}</div>
+            <a href={jobLink} target='_blank' className="link-accent link font-semibold text-xl" rel="noreferrer">
               {company}
             </a>
-            <div className=" badge block badge-warning gap-2"> {jobStatus}</div>
+           
           </div>
         </div>
         <div className="divider"></div> 
-        <div>
+        <div className='flex flex-col gap-2'>
           <div className="flex flex-row gap-4">
-            <div className="w-1/2 ">Location: {jobLocation}</div>
-            <div className=" w-1/2">Type: {jobType}</div>
+            <div className="w-1/2 inline-flex"><Icon icon={'glob'}/> {jobLocation}</div>
+            <div className=" w-1/2 inline-flex"><Icon icon={'jobtype'}/> {jobType}</div>
           </div>
           <div className="flex flex-row gap-4">
-            <div className=" w-1/2">Stage: {jobStage}</div>
-            <div className=" w-1/2">Position: {position}</div>
+            <div className=" w-1/2 inline-flex "><Icon icon={'plus'}/>Stage: {jobStage}</div> 
+            <div className={`   badge ${jobStatus === 'Pending'? 'badge-warning' : jobStatus === 'Connected' ? 'badge-info badge-outline' : 'badge-info'} gap-2 `}> {jobStatus}</div>
           </div>
           
         </div>

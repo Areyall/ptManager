@@ -9,6 +9,7 @@ const fetchJobLoadAction = createAction('jobs/allJobs');
 export const fetchCreateJob = createAsyncThunk(
   fetchJobAction as unknown as string,
   async (fData: object, thunkApi) => {
+    console.log("🚀 ~ fData:", fData)
     // const link = `${customAxiosFetch}/user`;
     const config = {
       headers: {
@@ -16,8 +17,9 @@ export const fetchCreateJob = createAsyncThunk(
       },
     };
     try {
+      
       const response = await customAxiosFetch.post('/job', fData, config);
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (error: any) {
       return thunkApi.rejectWithValue(error.message);

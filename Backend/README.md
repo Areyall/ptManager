@@ -300,6 +300,7 @@
                 company, position,status,type,location,date,comment
                 
         + controller:
+                logic on Route, find with mongoose in database
                 
 
 

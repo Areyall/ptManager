@@ -11,6 +11,7 @@ type FormValues = {
   jobStatus: string;
   jobStage: string;
   jobLocation: string;
+  jobLink: string;
   jobConnectionDate: string;
   jobComment: string;
 };
@@ -28,6 +29,7 @@ function AddJob() {
   const [newLocation, setNewLocation] = useState(job?.jobLocation || '');
   const [newDate, setNewDate] = useState(job?.jobConnectionDate || '');
   const [newComment, setNewComment] = useState(job?.jobComment || '');
+  const [newLink, setNewLink] = useState('/');
 
   const {
     register,
@@ -43,6 +45,7 @@ function AddJob() {
     const fData = watch(data);
 
     dispatch(fetchCreateJob({...fData,createdBy:user?._id}));
+    // console.log("🚀 ~ {...fData,createdBy:user?._id}:", {...fData,createdBy:user?._id})
   };
   return (
     <>
@@ -179,6 +182,17 @@ function AddJob() {
                     </option>
                   ))}
                 </select>
+              </div>
+              <div>
+                <Inputs
+                  title="Link"
+                  value={newLink}
+                  type="text"
+                  register={register}
+                  label="jobLink"
+                  onChange={(e: any) => setNewLink(e.target.value)}
+                  required={false}
+                />
               </div>
 
               <div></div>

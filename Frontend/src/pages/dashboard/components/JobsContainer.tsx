@@ -9,7 +9,6 @@ function JobsContainer() {
   const { jobs, totalJobs, page, isLoading, numOfPages } = useAppSelector(
     (store: RootState) => store.jobs,
   );
-  console.log('🚀 ~ jobLink:', jobs);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -30,7 +29,7 @@ function JobsContainer() {
             key={job._id}
             company={jobs[inx].company}
             updatedAt={jobs[inx].updatedAt.slice(0, 10)}
-            jobLink="https://aykyiv.vercel.app/"
+            jobLink={jobs[inx].jobLink}
             status={jobs[inx].status}
             position={jobs[inx].position}
             jobType={jobs[inx].jobType}
