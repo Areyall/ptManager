@@ -4,6 +4,7 @@ import { useState, useEffect, Fragment } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Loading from './elements/loading';
 import JobCard from './JobCard';
+import { Link, redirect } from 'react-router-dom';
 
 function JobsContainer() {
   const { jobs, totalJobs, page, isLoading, numOfPages } = useAppSelector(
@@ -16,6 +17,11 @@ function JobsContainer() {
       dispatch(fetchJobLoad());
     }
   }, []);
+
+  const jobCardHandler = (id:any) => {
+    
+    console.log(id)
+  }
 
   if (jobs.length < 1) {
     return <h2>No jobs to display</h2>;
@@ -36,6 +42,7 @@ function JobsContainer() {
             jobStatus={jobs[inx].jobStatus}
             jobStage={jobs[inx].jobStage}
             jobLocation={jobs[inx].jobLocation}
+            jobCardHandler={jobs[inx]._id}
           />
         ))}
       </div>

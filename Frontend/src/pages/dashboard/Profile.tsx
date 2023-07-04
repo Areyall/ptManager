@@ -33,7 +33,7 @@ function Profile() {
 
   return (
     <>
-      <div className="bg-base-200 p-8">
+      <div className="bg-base-200 min-h-screen p-8">
         <div className=" bg-base-200p-4 m-auto max-w-2xl rounded">
           <form
             onSubmit={handleSubmit(onSubmit)}

@@ -30,10 +30,11 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Dashboard />}>
-            <Route path="addjob" element={<AddJob />} />
-            <Route path="alljobs" element={<AllJobs />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="stats" element={<Stats />} />
+            <Route index element={<Stats />} />
+            <Route path="/addjob" element={<AddJob />} />
+            <Route path="/:id" element={<AddJob />} />
+            <Route path="/alljobs" element={<AllJobs />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>
 

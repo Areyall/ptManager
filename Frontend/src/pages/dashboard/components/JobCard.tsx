@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from './elements/icon';
+import { Link } from 'react-router-dom';
 interface Props {
   company: string;
   updatedAt: string;
@@ -10,6 +11,7 @@ interface Props {
   jobStatus: string;
   jobStage: string;
   jobLocation: string;
+  jobCardHandler: any;
 }
 
 // company: 'Deta';
@@ -33,7 +35,9 @@ function JobCard({
   jobStatus,
   jobStage,
   jobLocation,
+  jobCardHandler
 }: Props) {
+  
   return (
     <>
       <div className="w-full relative  p-4 py-7 rounded-md bg-base-300 ">
@@ -66,6 +70,7 @@ function JobCard({
           </div>
           
         </div>
+        <Link to={`/${jobCardHandler}`} className='btn btn-sm  mt-6 btn-neutral btn-outline'>Details</Link>
       </div>
     </>
   );
