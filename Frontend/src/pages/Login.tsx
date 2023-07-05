@@ -38,27 +38,27 @@ function Login() {
   const onSubmit: SubmitHandler<FormValues> = (e: any, data: any) => {
     e.preventDefault;
     const fData = watch(data);
-
     dispatch(fetchLogin(fData));
   };
   useEffect(() => {
-    // if (!user) {
-		// 	dispatch(fetchUserLoad());
-		//   }
-    if (error) {
-      toast.error('Wrong email or password');
+    if (isAuthenticated) {
+      dispatch(fetchUserLoad());
+      addUserToLocalStorage(user!);
+      if (error) {
+        toast.error('Wrong email or password');
+      }
     }
-    
-if (isAuthenticated) {
-    navigate('/');
-  }
+
+    if (isAuthenticated) {
+      navigate('/');
+    }
     // if (user ) {
     //     toast.success('Wellcome')
     //     navigate('/')
 
     // }
-  }, [user, error]);
-  
+  }, [isAuthenticated, error]);
+
   return (
     <div className="flex h-screen w-full items-center justify-center bg-base-200">
       <div className="flex min-w-[400px] flex-col gap-4 bg-base-300 p-10">

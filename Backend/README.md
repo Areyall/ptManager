@@ -302,6 +302,36 @@
         + controller:
                 logic on Route, find with mongoose in database
                 
+## 18 Frontend single job
+
+## 19 Stats page setup
+        1 Mongoose Aggregate pipeline, way to perform complex data aggregation and transformation. Define a pipeline of stages that specify varios operations TO BE PERFORMED on data
+                1. Define a pipeline stages. Each stage, an operation to be performed on data ($match, $group, $project $sort, $limit, $skip etc.)
+
+        2 Build pipeline use: Model.aggregate()
+        3 Initiate aggregate use .exec() returns promise so can use then() or await
+
+                // Define the aggregation pipeline stages
+                        const pipeline = [
+                        {$match: { age: { $gte: 18 } },}, // Match documents where age is greater than or equal to 18 
+                        { $group: { _id: '$gender', // Group by gender field
+                        `count`: { $sum: 1 }, },}, // Count the number of documents in each group
+                        {$sort: { count: -1 },},]; // Sort the groups by count in descending order
+
+                const aggregation = User.aggregate(pipeline);
+                // Execute the aggregation
+                aggregation.exec().then((results) => {console.log(results); })// Handle the aggregated results
+
+                {$group: {
+                _id: '$jobStatus',   // Grouping key: Group documents by their `jobStatus` values
+                count: { $sum: 1 },},}  // Calculate the count of documents in each group 
+                
+                        + In the $group stage, the _id field specifies the grouping key, grouped based on their jobStatus values.
+                        + $sum operator is a special operator ->  increment the `count` field
+
+        19.2 New aggregate `By date`
+                on the same route
+               
 
 
 

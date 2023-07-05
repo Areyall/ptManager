@@ -64,7 +64,7 @@ interface UserSliceState {
   user: User | null;
   isAuthenticated: boolean;
   token: string;
-  error: any;
+  error: string;
 }
 
 const USER_INITIAL_STATE: UserSliceState = {
@@ -87,7 +87,6 @@ export const userSlice = createSlice({
     builder
       .addCase(fetchLogin.pending, (state, _action) => {
         state.loading = true;
-        state.isAuthenticated = false;
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.loading = false;
@@ -124,7 +123,6 @@ export const userSlice = createSlice({
     builder
       .addCase(fetchUserLoad.pending, (state, action) => {
         state.loading = true;
-        state.isAuthenticated = false;
       })
       .addCase(fetchUserLoad.fulfilled, (state, action) => {
         state.loading = false;
@@ -140,7 +138,6 @@ export const userSlice = createSlice({
     builder
       .addCase(fetchUserUpdate.pending, (state, action) => {
         state.loading = true;
-        state.isAuthenticated = false;
       })
       .addCase(fetchUserUpdate.fulfilled, (state, action) => {
         state.loading = false;

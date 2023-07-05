@@ -5,11 +5,12 @@ import { createAsyncThunk, createAction, createSlice } from '@reduxjs/toolkit';
 
 const fetchJobAction = createAction('job/jobDetails');
 const fetchJobLoadAction = createAction('jobs/allJobs');
+const jobsStatsAction = createAction('jobsStats/allStats');
 
 export const fetchCreateJob = createAsyncThunk(
   fetchJobAction as unknown as string,
   async (fData: object, thunkApi) => {
-    console.log("🚀 ~ fData:", fData)
+    console.log('🚀 ~ fData:', fData);
     // const link = `${customAxiosFetch}/user`;
     const config = {
       headers: {
@@ -17,7 +18,6 @@ export const fetchCreateJob = createAsyncThunk(
       },
     };
     try {
-      
       const response = await customAxiosFetch.post('/job', fData, config);
       // console.log(response.data);
       return response.data;
@@ -111,7 +111,7 @@ export const fetchJobLoad = createAsyncThunk(
 
 interface allJobsSliceState {
   jobs: any;
-  isLoading:boolean
+  isLoading: boolean;
   totalJobs: number;
   page: number;
   numOfPages: number;
@@ -119,7 +119,7 @@ interface allJobsSliceState {
 
 const ALL_JOBS: allJobsSliceState = {
   jobs: [],
-  isLoading:true,
+  isLoading: true,
   totalJobs: 0,
   page: 1,
   numOfPages: 1,
@@ -135,7 +135,6 @@ export const jobsAll = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchJobLoad.pending, (state, _action) => {
-        state.jobs = [];
         state.isLoading = false;
         // state.isAuthenticated = false;
       })
@@ -150,6 +149,53 @@ export const jobsAll = createSlice({
         // state.isEditing = false;
         // state.isEditing = false;
         state.jobs = [];
+        // state.error = action.payload;
+      });
+  },
+});
+
+export const fetchJobStats = createAsyncThunk(
+  jobsStatsAction as unknown as string,
+  async () => {
+    const response = await customAxiosFetch.get('/job/stat');
+    return response.data;
+  },
+);
+
+interface JobsStatsType {
+  isLoading: boolean;
+  stats: any;
+}
+
+const ALL_JOBS_STATS: JobsStatsType = {
+  isLoading: false,
+  stats: {},
+};
+
+export const jobsStats = createSlice({
+  name: 'jobsStats',
+  initialState: ALL_JOBS_STATS,
+  reducers: {
+    //   InitialLoading: (state, action) => {
+    //     state.isAuthenticated = action.payload;
+    //   },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchJobStats.pending, (state, _action) => {
+        state.isLoading = true;
+        // state.isAuthenticated = false;
+      })
+      .addCase(fetchJobStats.fulfilled, (state, action) => {
+        // state.isEditing = true;
+        state.stats = action.payload.defaultStats;
+        state.isLoading = false;
+        // state.numOfPages = action.payload.numOfPages;
+      })
+      .addCase(fetchJobStats.rejected, (state, action) => {
+        // state.isEditing = false;
+        state.isLoading = false;
+        state.stats = null;
         // state.error = action.payload;
       });
   },

@@ -8,7 +8,7 @@ exports.createJob = async (req, res) => {
   if (!position || !company) {
     throw new BadRequestApi('Provide necessary values');
   }
-  
+
   const job = await Job.create(req.body);
   res.status(200).json({ job });
 };
@@ -26,5 +26,38 @@ exports.updateJob = async (req, res) => {
 };
 
 exports.showStatsJob = async (req, res) => {
-  res.send(req.user);
+  const createdBy = req.user._id;
+
+  const matchStagePipe = [
+    {
+      $match: { createdBy: String(createdBy) },
+    },
+    {
+      $group: {
+        _id: '$jobStatus',
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+  ];
+
+  let aggregationStats = await Job.aggregate(matchStagePipe);
+
+  aggregationStats = aggregationStats.reduce((acc,cur) =>{
+    const {_id, count} = cur
+    acc[_id] = count
+    return acc
+  },{})
+
+  const defaultStats = {
+    'Connected' : aggregationStats['Connected'] || 0,
+    'Pending': aggregationStats['Pending'] || 0,
+    'Feedback': aggregationStats['Feedback'] || 0,
+    'Interview': aggregationStats['Interview'] || 0,
+    'Declined': aggregationStats['Declined'] || 0,
+    'Aproved': aggregationStats['Aproved'] || 0
+  }
+
+  res.status(200).json({ defaultStats });
 };

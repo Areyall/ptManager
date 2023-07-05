@@ -172,6 +172,24 @@ export default store
 ## 17 Job redux slices
   separate slice + logic
 
+## 18 All jobs page
+    18.1 component for jobs
+    18.2 component for single job card
+    18.3 redirect to single job card details
+
+# 19 BAckend stats
+
+## Frontend stats page
+  + setup separate reducers
+    -> specifu useAppSelector, so it load oly chunk
+      -> load dataconditionaly
+      
+  + Structure x3 files Stat, StatContainer, ChartsContainer, StatItems
+  + Hardcoded data with job status
+  + Stats at dashboard
+  
+  
+
 
 
               

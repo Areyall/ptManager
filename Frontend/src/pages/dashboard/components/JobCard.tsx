@@ -41,7 +41,7 @@ function JobCard({
   return (
     <>
       <div className="w-full relative  p-4 py-7 rounded-md bg-base-300 ">
-      <div className=" absolute top-2 text-gray-400 right-3 inline-flex text-center"><Icon icon={'date'}/>{updatedAt}</div>
+      <div className=" absolute top-2 text-gray-400 right-3 inline-flex text-center"><Icon size='20px' icon={'date'}/>{updatedAt}</div>
         {/* <div className="w-full "></div> */}
         <div className="flex flex-row ">
           <div className="w-1/3 ">
@@ -61,11 +61,11 @@ function JobCard({
         <div className="divider"></div> 
         <div className='flex flex-col gap-2'>
           <div className="flex flex-row gap-4">
-            <div className="w-1/2 inline-flex"><Icon icon={'glob'}/> {jobLocation}</div>
-            <div className=" w-1/2 inline-flex"><Icon icon={'jobtype'}/> {jobType}</div>
+            <div className="w-1/2 inline-flex"><Icon size='20px' icon={'glob'}/> {jobLocation}</div>
+            <div className=" w-1/2 inline-flex"><Icon size='20px' icon={'jobtype'}/> {jobType}</div>
           </div>
           <div className="flex flex-row gap-4">
-            <div className=" w-1/2 inline-flex "><Icon icon={'plus'}/>Stage: {jobStage}</div> 
+            <div className=" w-1/2 inline-flex "><Icon size='20px' icon={'plus'}/>Stage: {jobStage}</div> 
             <div className={`   badge ${jobStatus === 'Pending'? 'badge-warning' : jobStatus === 'Connected' ? 'badge-info badge-outline' : 'badge-info'} gap-2 `}> {jobStatus}</div>
           </div>
           
