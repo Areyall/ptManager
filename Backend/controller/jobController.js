@@ -41,23 +41,60 @@ exports.showStatsJob = async (req, res) => {
       },
     },
   ];
+  const monthlyApplicationsPipe = [
+    {
+      $match: { createdBy: String(createdBy) },
+    },
+    {
+      $group: {
+        _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: { '_id.year': -1, '_id.month': -1 },
+    },
+    {
+      $limit: 6,
+    },
+  ];
 
   let aggregationStats = await Job.aggregate(matchStagePipe);
+  let monthlyApplicationsStats = await Job.aggregate(monthlyApplicationsPipe);
 
-  aggregationStats = aggregationStats.reduce((acc,cur) =>{
-    const {_id, count} = cur
-    acc[_id] = count
-    return acc
-  },{})
+  aggregationStats = aggregationStats.reduce((acc, cur) => {
+    const { _id, count } = cur;
+    acc[_id] = count;
+    return acc;
+  }, {});
+
+  monthlyApplicationsStats = monthlyApplicationsStats.map((el) => {
+    const formatYearMonth = (year, month) => {
+      const date = new Date(year, month - 1);
+
+      const options = { year: 'numeric', month: 'short' };
+      const formattedDate = date.toLocaleString('en-US', options);
+
+      return formattedDate;
+    };
+    const {
+      _id: { year, month },
+      count,
+    } = el;
+    const newDate = formatYearMonth(year, month);
+    return { newDate, count };
+  }).reverse();
 
   const defaultStats = {
-    'Connected' : aggregationStats['Connected'] || 0,
-    'Pending': aggregationStats['Pending'] || 0,
-    'Feedback': aggregationStats['Feedback'] || 0,
-    'Interview': aggregationStats['Interview'] || 0,
-    'Declined': aggregationStats['Declined'] || 0,
-    'Aproved': aggregationStats['Aproved'] || 0
-  }
+    Connected: aggregationStats['Connected'] || 0,
+    Pending: aggregationStats['Pending'] || 0,
+    Feedback: aggregationStats['Feedback'] || 0,
+    Interview: aggregationStats['Interview'] || 0,
+    Declined: aggregationStats['Declined'] || 0,
+    Aproved: aggregationStats['Aproved'] || 0,
+  };
 
-  res.status(200).json({ defaultStats });
+  res.status(200).json({ defaultStats, monthlyApplicationsStats });
 };

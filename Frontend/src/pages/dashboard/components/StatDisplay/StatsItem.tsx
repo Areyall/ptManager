@@ -27,11 +27,11 @@ export function SecondaryStats({ title, number, color, icon }: Props) {
   return (
     <>
       <div
-        className={`flex w-1/3 flex-row justify-between ${color} rounded-lg p-4`}
+        className={`flex w-1/3 flex-row justify-between ${color} rounded-lg p-2 px-4`}
       >
-        <div className={`  m-auto text-3xl`}>{number}</div>
+        <div className={`  m-auto text-2xl`}>{number}</div>
 
-        <div className="p-4  text-2xl">{title}</div>
+        <div className="p-2  text-2xl">{title}</div>
         <div className=" flex items-center ">
           <Icon icon={icon} size={'25px'} />
         </div>

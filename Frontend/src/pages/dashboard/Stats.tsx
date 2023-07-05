@@ -20,7 +20,7 @@ function Stats() {
   return (
     <div className="min-h-screen bg-base-200">
       <StatContainer stats={stats} />
-      <div className="">
+      <div className=" max-w-4xl m-auto">
         <ChartsContainer />
       </div>
     </div>

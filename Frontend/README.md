@@ -179,7 +179,7 @@ export default store
 
 # 19 BAckend stats
 
-## Frontend stats page
+## 20 Frontend stats page
   + setup separate reducers
     -> specifu useAppSelector, so it load oly chunk
       -> load dataconditionaly
@@ -187,6 +187,13 @@ export default store
   + Structure x3 files Stat, StatContainer, ChartsContainer, StatItems
   + Hardcoded data with job status
   + Stats at dashboard
+
+## 21 Backend
+
+## 22 Charts 
+  + Recharts -> npm i recharts
+   ++ BarChart && AreaChart
+
   
   
 

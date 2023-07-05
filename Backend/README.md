@@ -304,7 +304,9 @@
                 
 ## 18 Frontend single job
 
-## 19 Stats page setup
+## 20 frontend Stats
+
+## 21 Stats page setup
         1 Mongoose Aggregate pipeline, way to perform complex data aggregation and transformation. Define a pipeline of stages that specify varios operations TO BE PERFORMED on data
                 1. Define a pipeline stages. Each stage, an operation to be performed on data ($match, $group, $project $sort, $limit, $skip etc.)
 
@@ -331,6 +333,22 @@
 
         19.2 New aggregate `By date`
                 on the same route
+
+                const monthlyApplicationsPipe = [
+                        // Stage 1: Match documents based on createdBy field
+                        { $match: { createdBy: String(createdBy) }, },
+                        // Stage 2: Group documents by year and month of createdAt field
+                        { $group: {
+                        _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } }, 
+                                -> `It uses the $year and $month operators`
+                        
+                        count: {
+                                $sum: 1, },}, }, ];
+
+        19.3 Maping sorted elements to perform date data
+
+
+
                
 
 

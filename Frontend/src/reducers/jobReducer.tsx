@@ -165,11 +165,13 @@ export const fetchJobStats = createAsyncThunk(
 interface JobsStatsType {
   isLoading: boolean;
   stats: any;
+  monthlyStats: any;
 }
 
 const ALL_JOBS_STATS: JobsStatsType = {
   isLoading: false,
   stats: {},
+  monthlyStats: {},
 };
 
 export const jobsStats = createSlice({
@@ -189,6 +191,7 @@ export const jobsStats = createSlice({
       .addCase(fetchJobStats.fulfilled, (state, action) => {
         // state.isEditing = true;
         state.stats = action.payload.defaultStats;
+        state.monthlyStats = action.payload.monthlyApplicationsStats;
         state.isLoading = false;
         // state.numOfPages = action.payload.numOfPages;
       })
