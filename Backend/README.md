@@ -348,6 +348,33 @@
         19.3 Maping sorted elements to perform date data
 
 
+## 22 Front Charts
+
+## 23 Search Querys on route
+        the mainElementQuery asighnment -> 
+                 if (jobStatus !== 'all') { mainELement.status = jobStatus; } ->
+                 //Improved
+                  if (jobStatus && jobStatus !== 'all') {
+                        mainELement.status = jobStatus;
+                        }
+        Tips:
+        + Design the API endpoint:
+                /api/products/search
+        + Use query parameters, search parameters and sorting options:
+                use parameters like q for the search query and sort for specifying the sorting criteria
+        + Validate Input, query parameters to ensure the data is safe and consistent
+                library like Joi or Express Validator to validate and sanitize the incoming data
+        + Implement search logic
+        + Implement sorting logic
+        + Pagination:
+
+                23.1 When working with query parameters:
+                        + Accessing query parameters: request object (req.query). For example, req.query.jobStatus
+                        + Filtering based on the query parameters: construct the query based on the provided parameters
+                        + Handling default values: const { jobStatus = 'all', jobType = 'all' } = req.query;
+
+                        23.1.1 Object Oriented approach -> oopFiltering / quering.js
+
 
                
 

@@ -32,7 +32,7 @@ function StatContainer({ stats }: any) {
       id: 2,
       title: 'Connected',
       count: stats['Connected'] || 0,
-      icon: 'bug',
+      icon: 'plus',
       color: 'bg-warning',
     },
 
@@ -40,7 +40,7 @@ function StatContainer({ stats }: any) {
       id: 3,
       title: 'Feedback',
       count: stats['Feedback'] || 0,
-      icon: 'plus',
+      icon: 'bug',
       color: 'bg-warning',
     },
     {

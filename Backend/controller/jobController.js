@@ -16,7 +16,35 @@ exports.deleteJob = async (req, res) => {
   res.send(' deleteJob Job');
 };
 exports.getAllJobs = async (req, res) => {
-  const jobs = await Job.find({ createdBy: req.user._id });
+  const { search, jobStatus, jobType, jobStage, sort } = req.query;
+
+  const mainELement = {
+    createdBy: req.user._id,
+  };
+
+  if (jobStatus && jobStatus !== 'all') {
+    mainELement.status = jobStatus;
+  }
+  if (jobType && jobType !== 'all') {
+    mainELement.jobType = jobType;
+  }
+  if (search && search !== 'all') {
+    mainELement.position = { $regex: search, $options: 'i' };
+  }
+
+  let finalSort = Job.find(mainELement);
+
+if (sort === 'updated') {
+  finalSort = finalSort.sort('-updatedAt')
+}
+if (sort === 'latest') {
+  finalSort = finalSort.sort('-createdAt')
+}
+if (sort === 'oldest') {
+  finalSort = finalSort.sort('createdAt')
+}
+
+  const jobs = await finalSort;
 
   res.status(200).json({ jobs, totalJobs: jobs.length, numberOfPages: 1 });
 };
@@ -70,22 +98,24 @@ exports.showStatsJob = async (req, res) => {
     return acc;
   }, {});
 
-  monthlyApplicationsStats = monthlyApplicationsStats.map((el) => {
-    const formatYearMonth = (year, month) => {
-      const date = new Date(year, month - 1);
+  monthlyApplicationsStats = monthlyApplicationsStats
+    .map((el) => {
+      const formatYearMonth = (year, month) => {
+        const date = new Date(year, month - 1);
 
-      const options = { year: 'numeric', month: 'short' };
-      const formattedDate = date.toLocaleString('en-US', options);
+        const options = { year: 'numeric', month: 'short' };
+        const formattedDate = date.toLocaleString('en-US', options);
 
-      return formattedDate;
-    };
-    const {
-      _id: { year, month },
-      count,
-    } = el;
-    const newDate = formatYearMonth(year, month);
-    return { newDate, count };
-  }).reverse();
+        return formattedDate;
+      };
+      const {
+        _id: { year, month },
+        count,
+      } = el;
+      const newDate = formatYearMonth(year, month);
+      return { newDate, count };
+    })
+    .reverse();
 
   const defaultStats = {
     Connected: aggregationStats['Connected'] || 0,
