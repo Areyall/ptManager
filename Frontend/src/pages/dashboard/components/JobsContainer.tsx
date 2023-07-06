@@ -10,6 +10,7 @@ function JobsContainer() {
   const { jobs, totalJobs, page, isLoading, numOfPages } = useAppSelector(
     (store: RootState) => store.jobs,
   );
+  const {filteredJobs,isFiltered } = useAppSelector((store: RootState) => store.search);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -26,11 +27,18 @@ function JobsContainer() {
   if (jobs.length < 1) {
     return <h2>No jobs to display</h2>;
   }
+
+  let list
+  if (isFiltered === false) {
+    list = jobs 
+  } else{
+    list = filteredJobs.jobs
+  }
   return (
     <div className='max-w-4xl m-auto'>
       {isLoading ? <Loading /> : <h2 className='text-2xl font-semi-bold'>{totalJobs} Jobs Found</h2>}
       <div className="grid grid-cols-2 gap-4">
-        {jobs?.map((job: any, inx: number) => (
+        {list?.map((job: any, inx: number) => (
           <JobCard
             key={job._id}
             company={jobs[inx].company}

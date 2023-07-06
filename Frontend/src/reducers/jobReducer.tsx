@@ -11,7 +11,6 @@ const jobsSearchAction = createAction('jobsSearch/allSearch');
 export const fetchCreateJob = createAsyncThunk(
   fetchJobAction as unknown as string,
   async (fData: object, thunkApi) => {
-    console.log('🚀 ~ fData:', fData);
     // const link = `${customAxiosFetch}/user`;
     const config = {
       headers: {
@@ -121,7 +120,7 @@ export const jobsAll = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchJobLoad.pending, (state, _action) => {
-        state.isLoading = false;
+        state.isLoading = true;
         // state.isAuthenticated = false;
       })
       .addCase(fetchJobLoad.fulfilled, (state, action) => {
@@ -135,6 +134,7 @@ export const jobsAll = createSlice({
         // state.isEditing = false;
         // state.isEditing = false;
         state.jobs = [];
+        state.isLoading = false;
         // state.error = action.payload;
       });
   },
@@ -191,9 +191,14 @@ export const jobsStats = createSlice({
 });
 export const fetchJobSearch = createAsyncThunk(
   jobsSearchAction as unknown as string,
-  async () => {
-    const response = await customAxiosFetch.get('/job/stat');
-    return response.data;
+  async ({ searchType, searchStatus, searchStage, sort, search }: any) => {
+    let url = `/job?jobStatus=${searchStatus}&jobType=${searchType}&jobStage=${searchStage}&sort=${sort}`;
+    if (sort !== '') {
+      url = url + `&search=${search}`;
+    }
+    const response = await customAxiosFetch.get(url);
+    return response.data
+    
   },
 );
 
@@ -208,6 +213,8 @@ interface JobsSearchType {
   stageOptions: string[];
   statusOptions: string[];
   isLoading: boolean;
+  filteredJobs: any
+  isFiltered: boolean;
 }
 
 const ALL_JOBS_SEARCH: JobsSearchType | any = {
@@ -228,34 +235,38 @@ const ALL_JOBS_SEARCH: JobsSearchType | any = {
   ],
   stageOptions: ['1st', '2nd', '3rd', 'Deep'],
   isLoading: false,
+  filteredJobs: [],
+  isFiltered: false,
 };
 
 export const jobsSearch = createSlice({
   name: 'jobsSearch',
   initialState: ALL_JOBS_SEARCH,
   reducers: {
-      handleChange: (state, {payload:{name,value}}) => {
-         state[name] = value;
-      },
-      clearFilter: (state) => {
-         return {...state, ...ALL_JOBS_SEARCH}
-      },
+    handleChange: (state, { payload: { name, value } }) => {
+      state[name] = value;
+    },
+    clearFilter: (state) => {
+      return { ...state, ...ALL_JOBS_SEARCH };
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchJobSearch.pending, (state, _action) => {
         state.isLoading = true;
+
         // state.isAuthenticated = false;
       })
       .addCase(fetchJobSearch.fulfilled, (state, action) => {
-        // state.isEditing = true;
-        // state.search = action.payload.defaultSearch;
+        state.isFiltered = true;
+        state.filteredJobs = action.payload;
         // state.monthlySearch = action.payload.monthlyApplicationsSearch;
         state.isLoading = false;
         // state.numOfPages = action.payload.numOfPages;
       })
       .addCase(fetchJobSearch.rejected, (state, action) => {
         // state.isEditing = false;
+        state.isFiltered= false,
         state.isLoading = false;
         // state.search = null;
         // state.error = action.payload;
@@ -263,5 +274,5 @@ export const jobsSearch = createSlice({
   },
 });
 
-export const { handleChange,clearFilter } = jobsSearch.actions;
+export const { handleChange, clearFilter } = jobsSearch.actions;
 // export const { ReloadData } = jobSlice.actions

@@ -28,7 +28,10 @@ exports.getAllJobs = async (req, res) => {
   if (jobType && jobType !== 'all') {
     mainELement.jobType = jobType;
   }
-  if (search && search !== 'all') {
+  if (jobType && jobStage !== 'all') {
+    mainELement.jobStage = jobStage;
+  }
+  if (search) {
     mainELement.position = { $regex: search, $options: 'i' };
   }
 

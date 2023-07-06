@@ -196,6 +196,10 @@ export default store
 
 ## 24 Search inputs
     + Redux slice + initial values
+    
+          {/* <input type="reset" value="Reset"></input> */}
+          The Selection inputs, onChange dispatching every single one.
+          gather the Storage data, display filtered Jobs.
 
   
   

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SearchInputs } from './elements/inputs';
-import { clearFilter, handleChange } from '@/reducers/jobReducer';
+import { clearFilter, fetchJobSearch, handleChange } from '@/reducers/jobReducer';
 
 type FormValues = {
   search: string;
@@ -18,13 +18,12 @@ type FormValues = {
 // statusOptions: string[];
 
 function SearchContainer() {
-  const { sortOptions, typeOptions, stageOptions, statusOptions, searchType,searchStatus,searchStage,sort,search } = useAppSelector((store: RootState) => store.search);
+  const { sortOptions, typeOptions, stageOptions, statusOptions, searchType,searchStatus,searchStage,sort,search,isLoading } = useAppSelector((store: RootState) => store.search);
 
   const [newSearch, setNewSearch] = useState(search);
   const [newsearchStatus, setNewsearchStatus] = useState('');
   const [fieldNewStatus, setFieldNewStatus] = useState('');
   const [newSort, setNewSort] = useState(sort);
-  console.log("🚀 ~ newSort:", newSort)
   const [newType, setNewType] = useState(searchType);
   const [newStatus, setNewStatus] = useState(searchStatus);
   const [newStage, setNewStage] = useState(searchStage);
@@ -52,7 +51,9 @@ const handleChanges=(e:any)=>{
   };
   const onSubmit: SubmitHandler<FormValues> = async (e: any, data: any) => {
     e.preventDefault;
-    const fData = watch(data);
+    // const fData = watch(data);
+let search = newSearch
+dispatch(fetchJobSearch({searchType,searchStatus,searchStage,sort,search}))
 
     // dispatch(fetchCreateJob({ ...fData, createdBy: user?._id }));
     // console.log("🚀 ~ {...fData,createdBy:user?._id}:", {...fData,createdBy:user?._id})
@@ -74,7 +75,7 @@ const handleChanges=(e:any)=>{
               register={register}
               label="search"
               onChange={(e: any) => setNewSearch(e.target.value)}
-              required={true}
+              required={false}
             />
           </div>
        
@@ -159,16 +160,17 @@ const handleChanges=(e:any)=>{
             </select>
           </div>
           <button
-            // disabled={isLoading}
+            disabled={isLoading}
             type="submit"
             className=" btn-outline btn m-auto min-w-[150px] max-w-[210px] rounded-none"
           >
             Search
           </button>
+          {/* <input type="reset" value="Reset"></input> */}
         </form>
       </div>
       <button
-        // disabled={isLoading}
+        disabled={isLoading}
         type="button"
         className=" btn-outline btn m-auto min-w-[150px] max-w-[210px] rounded-none"
         onClick={(e: any) => onClearSubmit(e)}
