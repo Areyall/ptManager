@@ -34,15 +34,15 @@ exports.getAllJobs = async (req, res) => {
 
   let finalSort = Job.find(mainELement);
 
-if (sort === 'updated') {
-  finalSort = finalSort.sort('-updatedAt')
-}
-if (sort === 'latest') {
-  finalSort = finalSort.sort('-createdAt')
-}
-if (sort === 'oldest') {
-  finalSort = finalSort.sort('createdAt')
-}
+  if (sort === 'updated') {
+    finalSort = finalSort.sort('-updatedAt');
+  }
+  if (sort === 'latest') {
+    finalSort = finalSort.sort('-createdAt');
+  }
+  if (sort === 'oldest') {
+    finalSort = finalSort.sort('createdAt');
+  }
 
   const jobs = await finalSort;
 

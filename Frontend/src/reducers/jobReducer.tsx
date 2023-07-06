@@ -6,6 +6,7 @@ import { createAsyncThunk, createAction, createSlice } from '@reduxjs/toolkit';
 const fetchJobAction = createAction('job/jobDetails');
 const fetchJobLoadAction = createAction('jobs/allJobs');
 const jobsStatsAction = createAction('jobsStats/allStats');
+const jobsSearchAction = createAction('jobsSearch/allSearch');
 
 export const fetchCreateJob = createAsyncThunk(
   fetchJobAction as unknown as string,
@@ -83,21 +84,6 @@ export const jobSlice = createSlice({
         state.job = null;
         // state.error = action.payload;
       });
-    // builder
-    //   .addCase(fetchUserLoad.pending, (state, _action) => {
-    //     state.isEditing = false;
-    //     // state.isAuthenticated = false;
-    //   })
-    //   .addCase(fetchUserLoad.fulfilled, (state, action) => {
-    //     // state.isEditing = true;
-    //     state.job = action.payload.job;
-    //   })
-    //   .addCase(fetchUserLoad.rejected, (state, action) => {
-    //     // state.isEditing = false;
-    //     state.isEditing = false;
-    //     state.job = null;
-    //     // state.error = action.payload;
-    //   });
   },
 });
 
@@ -203,6 +189,79 @@ export const jobsStats = createSlice({
       });
   },
 });
+export const fetchJobSearch = createAsyncThunk(
+  jobsSearchAction as unknown as string,
+  async () => {
+    const response = await customAxiosFetch.get('/job/stat');
+    return response.data;
+  },
+);
 
-// export const { InitialLoading } = jobSlice.actions;
+interface JobsSearchType {
+  search: string;
+  searchStatus: string;
+  searchType: string;
+  searchStage: string;
+  sort: string;
+  sortOptions: string[];
+  typeOptions: string[];
+  stageOptions: string[];
+  statusOptions: string[];
+  isLoading: boolean;
+}
+
+const ALL_JOBS_SEARCH: JobsSearchType | any = {
+  search: '',
+  searchType: 'all',
+  searchStatus: 'all',
+  searchStage: 'all',
+  sort: 'latest',
+  sortOptions: ['latest', 'edited', 'oldest'],
+  typeOptions: ['Internship', 'Remote', 'Part-time', 'Full-time'],
+  statusOptions: [
+    'Connected',
+    'Pending',
+    'Feedback',
+    'Interview',
+    'Declined',
+    'Aproved',
+  ],
+  stageOptions: ['1st', '2nd', '3rd', 'Deep'],
+  isLoading: false,
+};
+
+export const jobsSearch = createSlice({
+  name: 'jobsSearch',
+  initialState: ALL_JOBS_SEARCH,
+  reducers: {
+      handleChange: (state, {payload:{name,value}}) => {
+         state[name] = value;
+      },
+      clearFilter: (state) => {
+         return {...state, ...ALL_JOBS_SEARCH}
+      },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchJobSearch.pending, (state, _action) => {
+        state.isLoading = true;
+        // state.isAuthenticated = false;
+      })
+      .addCase(fetchJobSearch.fulfilled, (state, action) => {
+        // state.isEditing = true;
+        // state.search = action.payload.defaultSearch;
+        // state.monthlySearch = action.payload.monthlyApplicationsSearch;
+        state.isLoading = false;
+        // state.numOfPages = action.payload.numOfPages;
+      })
+      .addCase(fetchJobSearch.rejected, (state, action) => {
+        // state.isEditing = false;
+        state.isLoading = false;
+        // state.search = null;
+        // state.error = action.payload;
+      });
+  },
+});
+
+export const { handleChange,clearFilter } = jobsSearch.actions;
 // export const { ReloadData } = jobSlice.actions

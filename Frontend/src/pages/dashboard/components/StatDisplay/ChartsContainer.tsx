@@ -6,7 +6,6 @@ import BarChartsComponent from './BarChart';
 function ChartsContainer() {
   const [chart, setChart] = useState(true);
   const { monthlyStats } = useAppSelector((store) => store.stats);
-  console.log('🚀 ~ monthlyStats:', monthlyStats);
 
   return (
     <>

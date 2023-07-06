@@ -375,6 +375,8 @@
 
                         23.1.1 Object Oriented approach -> oopFiltering / quering.js
 
+## 24 frnot inputs
+
 
                
 

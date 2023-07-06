@@ -194,6 +194,9 @@ export default store
   + Recharts -> npm i recharts
    ++ BarChart && AreaChart
 
+## 24 Search inputs
+    + Redux slice + initial values
+
   
   
 
