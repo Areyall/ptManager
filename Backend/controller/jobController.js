@@ -17,18 +17,23 @@ exports.deleteJob = async (req, res) => {
 };
 exports.getAllJobs = async (req, res) => {
   const { search, jobStatus, jobType, jobStage, sort } = req.query;
+  console.log("🚀 ~ jobStage:", jobStage)
+  console.log("🚀 ~ jobType:", jobType)
+  console.log("🚀 ~ jobStatus:", jobStatus)
+  console.log("🚀 ~ search:", search)
+  console.log("🚀 ~ sort:", sort)
 
   const mainELement = {
     createdBy: req.user._id,
   };
 
   if (jobStatus && jobStatus !== 'all') {
-    mainELement.status = jobStatus;
+    mainELement.jobStatus = jobStatus;
   }
   if (jobType && jobType !== 'all') {
     mainELement.jobType = jobType;
   }
-  if (jobType && jobStage !== 'all') {
+  if (jobStage && jobStage !== 'all') {
     mainELement.jobStage = jobStage;
   }
   if (search) {
