@@ -1,4 +1,4 @@
-// model: company, position,status,type,location,date,comment
+// model: company, position,status,type,location,date,comment/
 
 const BadRequestApi = require('../Errors/BadRequestError');
 const Job = require('../models/job');

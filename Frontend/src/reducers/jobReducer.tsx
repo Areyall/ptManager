@@ -254,7 +254,7 @@ export const jobsStats = createSlice({
         // state.isEditing = false;
         state.isLoading = false;
         state.stats = null;
-        // state.error = action.payload;
+        // state.error = action.payload
       });
   },
 });

@@ -38,7 +38,7 @@ function JobsContainer() {
     list = filteredJobs.jobs;
     newNumOfPages = Math.ceil(filteredJobs.jobs.length / limit);
   }
-  // console.log("🚀 ~ newNumOfPages:",jobs, limit,newNumOfPages)
+  // console.log("🚀 ~ newNumOfPages:",jobs, limit,newNumOfPages)/
 
   const handlePageClick = (e: any) => {
     let newPage = e.selected + 1,

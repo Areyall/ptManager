@@ -13,7 +13,7 @@ interface Props {
 interface SearchProps {
   title: string;
   value: string;
-  //   setValue: any;
+  //   setValue: any
   type: string;
   label: Path<SearchPropsFormValues>;
   register: UseFormRegister<SearchPropsFormValues>;

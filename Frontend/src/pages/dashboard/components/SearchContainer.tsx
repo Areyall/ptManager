@@ -57,7 +57,7 @@ let search = newSearch
 dispatch(fetchJobSearch({jobType, jobStatus, jobStage,sort,search}))
 
 
-    // dispatch(fetchCreateJob({ ...fData, createdBy: user?._id }));
+    // dispatch(fetchCreateJob({ ...fData, createdBy: user?._id }))
     // console.log("🚀 ~ {...fData,createdBy:user?._id}:", {...fData,createdBy:user?._id})
   };
 
