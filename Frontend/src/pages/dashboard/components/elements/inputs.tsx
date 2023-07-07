@@ -1,7 +1,7 @@
 import React from 'react';
 import { Path, UseFormRegister, useForm } from 'react-hook-form';
 interface Props {
-    title: string;
+  title: string;
   value: string;
   //   setValue: any;
   type: string;
@@ -22,12 +22,10 @@ interface SearchProps {
 }
 interface SearchPropsFormValues {
   search: string;
-  searchStatus: string;
-  searchType: string;
-  searchStage: string;
-  jobSort: string;
-  
-  
+  jobStatus: string;
+  jobType: string;
+  jobStage: string;
+  sort: string;
 }
 interface IFormValues {
   company: string;
@@ -40,7 +38,15 @@ interface IFormValues {
   jobConnectionDate: string;
   jobComment: string;
 }
-export function Inputs({title, value, type, register, label, onChange, required }: Props) {
+export function Inputs({
+  title,
+  value,
+  type,
+  register,
+  label,
+  onChange,
+  required,
+}: Props) {
   return (
     <>
       <h2>{title}:</h2>
@@ -63,19 +69,26 @@ export function Inputs({title, value, type, register, label, onChange, required 
     </>
   );
 }
-export function SearchInputs({title, value, type, register, label, onChange, required }: SearchProps) {
+export function SearchInputs({
+  title,
+  value,
+  type,
+  register,
+  label,
+  onChange,
+  required,
+}: SearchProps) {
   return (
     <>
       <h2>{title}:</h2>
       <input
         className="mt-0
         block w-full
+      min-w-[150px]
       border-0
       border-b-2
-      border-base-300
-      bg-base-100 px-0.5 pl-3 min-w-[150px]
+      border-base-300 bg-base-100 px-0.5 pl-3
       focus:border-black focus:ring-0"
-      
         type={type}
         value={value}
         {...register(label, {
@@ -87,4 +100,3 @@ export function SearchInputs({title, value, type, register, label, onChange, req
     </>
   );
 }
-

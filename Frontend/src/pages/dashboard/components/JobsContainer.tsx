@@ -32,8 +32,8 @@ function JobsContainer() {
   let list, newNumOfPages;
   if ( isFiltered === false) {
     list = jobs;
-    // newNumOfPages = Math.ceil(jobs.length / limit);
     newNumOfPages = numOfPages
+    // newNumOfPages = Math.ceil(jobs.length / limit);
   } else {
     list = filteredJobs.jobs;
     newNumOfPages = Math.ceil(filteredJobs.jobs.length / limit);
@@ -52,7 +52,7 @@ function JobsContainer() {
         <Loading />
       ) : (
         <h2 className="font-semi-bold text-2xl">
-          {isFiltered ? filteredJobs.jobs.length : totalJobs} Jobs Found
+         {jobs.length > 1 ? `${jobs.length} Jobs Found` : `${jobs.length} Job Found`}   
         </h2>
       )}
       <div className="grid grid-cols-2 gap-4">
@@ -73,27 +73,28 @@ function JobsContainer() {
           />
         ))}
       </div>
-
+      <div className=" flex justify-center">
       <ReactPaginate
-        nextLabel="next >"
+        nextLabel="next  >"
         onPageChange={(e) => handlePageClick(e)}
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
         pageCount={newNumOfPages}
-        previousLabel="< previous"
+        previousLabel="< prev"
         pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
+        pageLinkClassName=" btn btn-sm btn-outline btn-secondary-content bg-transparent"
+        previousClassName=""
+        previousLinkClassName="join-item btn-outline  btn-sm btn"
         nextClassName="page-item"
-        nextLinkClassName="page-link"
+        nextLinkClassName="join-item btn-outline  btn-sm btn"
         breakLabel="..."
         breakClassName="page-item"
         breakLinkClassName="page-link"
-        containerClassName="pagination"
-        activeClassName="active"
+        containerClassName="join gap-1 py-8 justify-center"
+        activeClassName=" btn-active"
         renderOnZeroPageCount={null}
       />
+    </div>
     </div>
   );
 }

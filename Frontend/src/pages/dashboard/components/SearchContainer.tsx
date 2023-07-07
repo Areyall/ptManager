@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SearchInputs } from './elements/inputs';
-import { clearFilter, fetchJobSearch, handleChange } from '@/reducers/jobReducer';
+import { clearFilter, fetchJobLoad, fetchJobSearch, handleChange } from '@/reducers/jobReducer';
 
 type FormValues = {
   search: string;
-  jobSort: string;
-  searchType: string;
-  searchStatus: string;
-  searchStage: string;
+  sort: string;
+ jobType: string;
+ jobStatus: string;
+ jobStage: string;
 };
 
 // sortOptions: string[];
@@ -18,15 +18,15 @@ type FormValues = {
 // statusOptions: string[];
 
 function SearchContainer() {
-  const { sortOptions, typeOptions, stageOptions, statusOptions, searchType,searchStatus,searchStage,sort,search,isLoading } = useAppSelector((store: RootState) => store.search);
+  const { sortOptions, typeOptions, stageOptions, statusOptions, jobType,jobStatus,jobStage,sort,search,isLoading } = useAppSelector((store: RootState) => store.search);
 
   const [newSearch, setNewSearch] = useState(search);
   const [newsearchStatus, setNewsearchStatus] = useState('');
   const [fieldNewStatus, setFieldNewStatus] = useState('');
   const [newSort, setNewSort] = useState(sort);
-  const [newType, setNewType] = useState(searchType);
-  const [newStatus, setNewStatus] = useState(searchStatus);
-  const [newStage, setNewStage] = useState(searchStage);
+  const [newType, setNewType] = useState(jobType);
+  const [newStatus, setNewStatus] = useState(jobStatus);
+  const [newStage, setNewStage] = useState(jobStage);
 
   const {
     register,
@@ -48,12 +48,14 @@ const handleChanges=(e:any)=>{
     reset()
     setNewSearch('')
     dispatch(clearFilter())
+    dispatch(fetchJobLoad())
   };
   const onSubmit: SubmitHandler<FormValues> = async (e: any, data: any) => {
     e.preventDefault;
     // const fData = watch(data);
 let search = newSearch
-dispatch(fetchJobSearch({searchType,searchStatus,searchStage,sort,search}))
+dispatch(fetchJobSearch({jobType, jobStatus, jobStage,sort,search}))
+
 
     // dispatch(fetchCreateJob({ ...fData, createdBy: user?._id }));
     // console.log("🚀 ~ {...fData,createdBy:user?._id}:", {...fData,createdBy:user?._id})
@@ -89,7 +91,7 @@ dispatch(fetchJobSearch({searchType,searchStatus,searchStage,sort,search}))
                border-b-2
                border-base-300 bg-base-100 px-0.5 pl-3
                focus:border-black focus:ring-0"
-              {...register('jobSort', { required: true })}
+              {...register('sort', { required: true })}
               onChange={(e) => handleChanges(e)}
             >
               {sortOptions.map((item:any, inx:any) => (
@@ -109,7 +111,7 @@ dispatch(fetchJobSearch({searchType,searchStatus,searchStage,sort,search}))
                border-b-2
                border-base-300 bg-base-100 px-0.5 pl-3
                focus:border-black focus:ring-0"
-              {...register('searchType', { required: true })}
+              {...register('jobType', { required: true })}
               onChange={(e) => handleChanges(e)}
             >
               {['all',...typeOptions].map((item, inx) => (
@@ -129,10 +131,10 @@ dispatch(fetchJobSearch({searchType,searchStatus,searchStage,sort,search}))
                border-b-2
                border-base-300 bg-base-100 px-0.5 pl-3
                focus:border-black focus:ring-0"
-              {...register('searchStatus')}
+              {...register('jobStatus')}
               onChange={(e) => handleChanges(e)}
             >
-              {['all',...stageOptions].map((item, inx) => (
+              {['all',...statusOptions].map((item, inx) => (
                 <option key={inx} value={item}>
                   {item}
                 </option>
@@ -149,10 +151,10 @@ dispatch(fetchJobSearch({searchType,searchStatus,searchStage,sort,search}))
                border-b-2
                border-base-300 bg-base-100 px-0.5 pl-3
                focus:border-black focus:ring-0"
-              {...register('searchStage')}
+              {...register('jobStage')}
               onChange={(e) => handleChanges(e)}
             >
-              {['all',...statusOptions].map((item, inx) => (
+              {['all',...stageOptions].map((item, inx) => (
                 <option key={inx} value={item}>
                   {item}
                 </option>
