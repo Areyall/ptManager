@@ -98,7 +98,6 @@ export const userSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = false;
         state.user = null;
-        state.error = action.payload;
       });
 
     // 	// fetchRegister

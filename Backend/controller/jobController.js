@@ -47,9 +47,18 @@ exports.getAllJobs = async (req, res) => {
     finalSort = finalSort.sort('createdAt');
   }
 
-  const jobs = await finalSort;
+  let limit = Number(req.query.limit || 3),
+    page = Number(req.query.page || 1),
+    skip = (page - 1) * limit;
 
-  res.status(200).json({ jobs, totalJobs: jobs.length, numberOfPages: 1 });
+    finalSort.skip(skip).limit(limit);
+  
+
+  const jobs = await finalSort;
+  totalJobs = await Job.countDocuments(mainELement);
+  const numOfPages = Math.ceil(totalJobs / limit);
+
+  res.status(200).json({ jobs, totalJobs: jobs.length, numberOfPages: numOfPages, limit });
 };
 
 exports.updateJob = async (req, res) => {

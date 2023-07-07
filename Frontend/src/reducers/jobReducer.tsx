@@ -5,6 +5,7 @@ import { createAsyncThunk, createAction, createSlice } from '@reduxjs/toolkit';
 
 const fetchJobAction = createAction('job/jobDetails');
 const fetchJobLoadAction = createAction('jobs/allJobs');
+const fetchJobPageAction = createAction('jobs/pageJobs');
 const jobsStatsAction = createAction('jobsStats/allStats');
 const jobsSearchAction = createAction('jobsSearch/allSearch');
 
@@ -90,6 +91,24 @@ export const fetchJobLoad = createAsyncThunk(
   fetchJobLoadAction as unknown as string,
   async () => {
     const response = await customAxiosFetch.get('/job');
+    console.log("🚀 ~ response:", response.data)
+    return response.data;
+  },
+);
+interface jpProps {
+  newPage: number;
+  newLimit: number;
+}
+export const fetchJobPageLoad = createAsyncThunk(
+  fetchJobPageAction as unknown as string,
+  async ({ newPage, newLimit }: jpProps) => {
+    let url = '/job';
+
+    if (newPage || newLimit) {
+      url = url + `?page=${newPage}&limit=${newLimit}`;
+    }
+
+    const response = await customAxiosFetch.get(url);
     return response.data;
   },
 );
@@ -99,6 +118,7 @@ interface allJobsSliceState {
   isLoading: boolean;
   totalJobs: number;
   page: number;
+  limit: number;
   numOfPages: number;
 }
 
@@ -107,6 +127,7 @@ const ALL_JOBS: allJobsSliceState = {
   isLoading: true,
   totalJobs: 0,
   page: 1,
+  limit: 2,
   numOfPages: 1,
 };
 export const jobsAll = createSlice({
@@ -128,7 +149,8 @@ export const jobsAll = createSlice({
         state.jobs = action.payload.jobs;
         state.totalJobs = action.payload.totalJobs;
         state.isLoading = false;
-        // state.numOfPages = action.payload.numOfPages;
+        state.numOfPages = action.payload.numberOfPages;
+        state.limit = action.payload.limit;
       })
       .addCase(fetchJobLoad.rejected, (state, action) => {
         // state.isEditing = false;
@@ -136,6 +158,18 @@ export const jobsAll = createSlice({
         state.jobs = [];
         state.isLoading = false;
         // state.error = action.payload;
+      });
+    builder
+      .addCase(fetchJobPageLoad.pending, (state, _action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchJobPageLoad.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.jobs = action.payload.jobs;
+        state.limit = action.payload.limit;
+      })
+      .addCase(fetchJobPageLoad.rejected, (state, action) => {
+        state.isLoading = false;
       });
   },
 });
@@ -197,8 +231,7 @@ export const fetchJobSearch = createAsyncThunk(
       url = url + `&search=${search}`;
     }
     const response = await customAxiosFetch.get(url);
-    return response.data
-    
+    return response.data;
   },
 );
 
@@ -213,7 +246,7 @@ interface JobsSearchType {
   stageOptions: string[];
   statusOptions: string[];
   isLoading: boolean;
-  filteredJobs: any
+  filteredJobs: any;
   isFiltered: boolean;
 }
 
@@ -266,8 +299,7 @@ export const jobsSearch = createSlice({
       })
       .addCase(fetchJobSearch.rejected, (state, action) => {
         // state.isEditing = false;
-        state.isFiltered= false,
-        state.isLoading = false;
+        (state.isFiltered = false), (state.isLoading = false);
         // state.search = null;
         // state.error = action.payload;
       });

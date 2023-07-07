@@ -377,9 +377,11 @@
 
 ## 24 frnot inputs
 
-
-               
-
-
+## 25 Pagination 
+        mongoose limit = 2, skip = 1
+        +  Mongoose provides the skip() and limit() methods to handle pagination.
+        + Calculate the skip value based on the current page and page size
+                const numOfPages = Math.ceil(totalJobs / limit);
+        
 
 

@@ -201,6 +201,9 @@ export default store
           The Selection inputs, onChange dispatching every single one.
           gather the Storage data, display filtered Jobs.
 
+## 25 Back pagination
+    
+
   
   
 
