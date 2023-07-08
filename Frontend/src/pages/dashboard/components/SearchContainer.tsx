@@ -52,9 +52,6 @@ const handleChanges=(e:any)=>{
     dispatch(fetchJobLoad())
   };
   let search = newSearch
-console.log("🚀 ~ search:", search)
-
-console.log("🚀 ~ search:", search)
   const onSubmit: SubmitHandler<FormValues> = async (e: any, data: any) => {
     e.preventDefault;
     // const fData = watch(data);

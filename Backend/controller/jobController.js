@@ -47,7 +47,7 @@ exports.getAllJobs = async (req, res) => {
     finalSort = finalSort.sort('createdAt');
   }
 
-  let limit = Number(req.query.limit || 2),
+  let limit = Number(req.query.limit || 12),
     page = Number(req.query.page || 1),
     skip = (page - 1) * limit;
 

@@ -1,10 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 function TopNavBar() {
+// let navigate = useNavigate()
+  const logoutHandler = (e:any) => { 
+    localStorage.removeItem('pmManUser')
+    // if ( localStorage.getItem('pmManUser') === null) {
+    
+    //   navigate('/intro')
+    // }
+   }
   return (
     <>
-      <div className="navbar bg-base-300">
+      <div className="navbar bg-base-300 justify-between">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn-ghost btn lg:hidden">
@@ -35,7 +44,9 @@ function TopNavBar() {
               </li>
             </ul>
           </div>
-          <Link to={'/'} className="btn-ghost btn text-xl normal-case">PtManager</Link>
+          <Link to={'/'} className="btn-ghost btn text-xl normal-case">
+            PtManager
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -47,8 +58,29 @@ function TopNavBar() {
             </li>
           </ul>
         </div>
-        <div className="navbar-end">
-          <a className="btn">Button</a>
+        <div className="dropdown-end dropdown">
+          <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
+            <div className="w-10 rounded-full">
+              <img src="https://i.imgur.com/De1rs61.png" />
+            </div>
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
+          >
+            <li>
+              <Link to={'/profile'} className="justify-between">
+                Profile
+                <span className="badge">New</span>
+              </Link>
+            </li>
+            {/* <li>
+              <a>Settings</a>
+            </li> */}
+            <li>
+              <a href='/intro' onClick={(e) => logoutHandler(e)}>Logout</a>
+            </li>
+          </ul>
         </div>
       </div>
     </>

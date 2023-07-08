@@ -383,5 +383,13 @@
         + Calculate the skip value based on the current page and page size
                 const numOfPages = Math.ceil(totalJobs / limit);
         
+        + Route /job?page=${newPage}
+                link setup to navigate pages and sort 
+                rigt amount reducers to sync the logic
+
+                        the reducers that dispatch page to glodal store with a single number
+                update total jobs inialy and after sorting 
+
+
 
 

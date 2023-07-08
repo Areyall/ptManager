@@ -201,7 +201,16 @@ export default store
           The Selection inputs, onChange dispatching every single one.
           gather the Storage data, display filtered Jobs.
 
-## 25 Back pagination
+##  25 Pagination
+        npm i react-paginate
+
+          manual instalation
+            some frontend component variables, styling
+
+
+## 26 Back pagination 
+
+
     
 
   

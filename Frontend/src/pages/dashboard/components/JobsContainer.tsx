@@ -13,7 +13,6 @@ function JobsContainer() {
 
   const {  jobType,jobStatus,jobStage,sort,search } = useAppSelector((store: RootState) => store.search);
   const data = useAppSelector((store: RootState) => store.search);
-  console.log("🚀 ~ data:", data)
 
   const { filteredJobs, isFiltered } = useAppSelector(
     (store: RootState) => store.search,
@@ -42,9 +41,7 @@ function JobsContainer() {
     list = filteredJobs.jobs;
     newNumOfPages = Math.ceil(filteredJobs.jobs.length / limit);
   }
-  // console.log("🚀 ~ newNumOfPages:",jobs, limit,newNumOfPages)/
   
-  console.log("🚀 ~ search:", search)
   const handlePageClick = (e: any) => {
     let newPage = e.selected + 1,
       newLimit = 2;

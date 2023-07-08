@@ -9,7 +9,6 @@ function Stats() {
   const { stats, isLoading } = useAppSelector((storage) => storage.stats);
   
   useEffect(() => {
-    console.log('🚀 ~ stats:', stats);
     if (isLoading === false) {
       
       dispatch(fetchJobStats())

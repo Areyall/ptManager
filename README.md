@@ -70,5 +70,5 @@ const [newName, setName] = useState(user?.email ?? '');
     // Other user properties
     }
     interface UserSliceState {
-    user: User | null; // Update the type to the specific User interface
+    user: User | null; // Update the type to the specific User interface 
     }

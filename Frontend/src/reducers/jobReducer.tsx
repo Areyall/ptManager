@@ -20,7 +20,6 @@ export const fetchCreateJob = createAsyncThunk(
     };
     try {
       const response = await customAxiosFetch.post('/job', fData, config);
-      // console.log(response.data);
       return response.data;
     } catch (error: any) {
       return thunkApi.rejectWithValue(error.message);
@@ -115,14 +114,12 @@ interface jpProps {
 export const fetchJobSearch = createAsyncThunk(
   jobsSearchAction as unknown as string,
   async ({ jobType, jobStatus, jobStage, sort, search, newPage }: any,thunkApi) => {
-    // console.log("🚀 ~ search:", search)
     let url = `/job?page=${newPage}&jobStatus=${jobStatus}&jobType=${jobType}&jobStage=${jobStage}&sort=${sort}`;
     if (search) {
       url = url + `&search=${search}`;
     }
 
     const response = await customAxiosFetch.get(url);
-    console.log(response.data)
     return response.data;
   },
 );
@@ -305,11 +302,9 @@ export const jobsSearch = createSlice({
   initialState: ALL_JOBS_SEARCH,
   reducers: {
     handleChange: (state, { payload: { name, value } }) => {
-      console.log(name, value);
       state[name] = value;
     },
     handleSearch: (state, action) => {
-      console.log(action.payload);
       state.search = action.payload.search;
     },
     clearFilter: (state) => {

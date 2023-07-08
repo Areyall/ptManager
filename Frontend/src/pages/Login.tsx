@@ -40,6 +40,12 @@ function Login() {
     const fData = watch(data);
     dispatch(fetchLogin(fData));
   };
+
+  const onDemoUserEnter = () => {
+    dispatch(
+      fetchLogin({ email: 'demo123mail@gmail.com', password: 'demo1234' }),
+    );
+  };
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchUserLoad());
@@ -85,8 +91,8 @@ function Login() {
             Submit
           </button>
         </form>
-        <button type="submit" className="btn-outline btn">
-          Demo
+        <button type="submit" className="btn-outline btn" onClick={() => onDemoUserEnter()}>
+          Demo user
         </button>
         <div className="pt-8">
           <div
@@ -100,7 +106,10 @@ function Login() {
               >
               {isMember ? 'Register' : 'Login'}
             </button> */}
-            <button className="btn-outline btn-disabled btn-sm btn ">
+            <button
+              className="btn-outline btn-disabled btn-sm btn "
+              
+            >
               Register
             </button>
           </div>
