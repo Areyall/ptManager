@@ -91,37 +91,38 @@ export const fetchJobLoad = createAsyncThunk(
   fetchJobLoadAction as unknown as string,
   async () => {
     const response = await customAxiosFetch.get('/job');
-    console.log('🚀 ~ response:', response.data);
     return response.data;
   },
 );
 interface jpProps {
   newPage: number;
-  newLimit: number;
+  // newLimit: number;
 }
-export const fetchJobPageLoad = createAsyncThunk(
-  fetchJobPageAction as unknown as string,
-  async ({ newPage, newLimit }: jpProps) => {
-    let url = '/job';
+// export const fetchJobPageLoad = createAsyncThunk(
+//   fetchJobPageAction as unknown as string,
+//   async ({ newPage }: jpProps) => {
+//     let url = '/job?';
 
-    if (newPage || newLimit) {
-      url = url + `?page=${newPage}&limit=${newLimit}`;
-    }
+//     if (newPage ) {
+//       url = url + `page=${newPage}`;
+//     }
 
-    const response = await customAxiosFetch.get(url);
-    return response.data;
-  },
-);
+//     const response = await customAxiosFetch.get(url);
+//     return response.data;
+//   },
+// );
 
 export const fetchJobSearch = createAsyncThunk(
   jobsSearchAction as unknown as string,
-  async ({ jobType, jobStatus, jobStage, sort, search }: any) => {
-    let url = `/job?jobStatus=${jobStatus}&jobType=${jobType}&jobStage=${jobStage}&sort=${sort}`;
-    if (sort !== '') {
+  async ({ jobType, jobStatus, jobStage, sort, search, newPage }: any,thunkApi) => {
+    // console.log("🚀 ~ search:", search)
+    let url = `/job?page=${newPage}&jobStatus=${jobStatus}&jobType=${jobType}&jobStage=${jobStage}&sort=${sort}`;
+    if (search) {
       url = url + `&search=${search}`;
     }
+
     const response = await customAxiosFetch.get(url);
-    console.log('🚀 ~ response:', response.data);
+    console.log(response.data)
     return response.data;
   },
 );
@@ -133,7 +134,7 @@ interface allJobsSliceState {
   totalJobs: number;
   page: number;
   limit: number;
-  numOfPages: number;
+  numberOfPages: number;
 }
 
 const ALL_JOBS: allJobsSliceState = {
@@ -142,7 +143,7 @@ const ALL_JOBS: allJobsSliceState = {
   totalJobs: 0,
   page: 1,
   limit: 2,
-  numOfPages: 1,
+  numberOfPages: 1,
   isFiltered: false,
 };
 export const jobsAll = createSlice({
@@ -164,7 +165,7 @@ export const jobsAll = createSlice({
         state.jobs = action.payload.jobs;
         state.totalJobs = action.payload.totalJobs;
         state.isLoading = false;
-        state.numOfPages = action.payload.numberOfPages;
+        state.numberOfPages = action.payload.numberOfPages;
         state.limit = action.payload.limit;
       })
       .addCase(fetchJobLoad.rejected, (state, action) => {
@@ -174,18 +175,20 @@ export const jobsAll = createSlice({
         state.isLoading = false;
         // state.error = action.payload;
       });
-    builder
-      .addCase(fetchJobPageLoad.pending, (state, _action) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchJobPageLoad.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.jobs = action.payload.jobs;
-        state.limit = action.payload.limit;
-      })
-      .addCase(fetchJobPageLoad.rejected, (state, action) => {
-        state.isLoading = false;
-      });
+    // builder
+    //   .addCase(fetchJobPageLoad.pending, (state, _action) => {
+    //     state.isLoading = true;
+    //   })
+    //   .addCase(fetchJobPageLoad.fulfilled, (state, action) => {
+    //     state.isLoading = false;
+    //     state.jobs = action.payload.jobs;
+    //     state.limit = action.payload.limit;
+    //     state.page = action.payload.page;
+    //   })
+    //   .addCase(fetchJobPageLoad.rejected, (state, action) => {
+    //     state.isLoading = false;
+    //   });
+
     builder
       .addCase(fetchJobSearch.pending, (state, _action) => {
         state.isLoading = true;
@@ -195,9 +198,10 @@ export const jobsAll = createSlice({
       .addCase(fetchJobSearch.fulfilled, (state, action) => {
         state.isFiltered = true;
         state.jobs = action.payload.jobs;
+        state.totalJobs = action.payload.totalJobs;
         // state.monthlySearch = action.payload.monthlyApplicationsSearch;
         state.isLoading = false;
-        // state.numOfPages = action.payload.numOfPages;
+        state.numberOfPages = action.payload.numberOfPages;
       })
       .addCase(fetchJobSearch.rejected, (state, action) => {
         // state.isEditing = false;
@@ -304,6 +308,10 @@ export const jobsSearch = createSlice({
       console.log(name, value);
       state[name] = value;
     },
+    handleSearch: (state, action) => {
+      console.log(action.payload);
+      state.search = action.payload.search;
+    },
     clearFilter: (state) => {
       return { ...state, ...ALL_JOBS_SEARCH };
     },
@@ -311,5 +319,5 @@ export const jobsSearch = createSlice({
   extraReducers: (builder) => {},
 });
 
-export const { handleChange, clearFilter } = jobsSearch.actions;
+export const { handleChange,handleSearch, clearFilter } = jobsSearch.actions;
 // export const { ReloadData } = jobSlice.actions

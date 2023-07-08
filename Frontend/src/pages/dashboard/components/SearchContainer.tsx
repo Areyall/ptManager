@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SearchInputs } from './elements/inputs';
-import { clearFilter, fetchJobLoad, fetchJobSearch, handleChange } from '@/reducers/jobReducer';
+import { clearFilter, fetchJobLoad, fetchJobSearch, handleChange, handleSearch } from '@/reducers/jobReducer';
 
 type FormValues = {
   search: string;
@@ -18,9 +18,10 @@ type FormValues = {
 // statusOptions: string[];
 
 function SearchContainer() {
-  const { sortOptions, typeOptions, stageOptions, statusOptions, jobType,jobStatus,jobStage,sort,search,isLoading } = useAppSelector((store: RootState) => store.search);
+  const { sortOptions, typeOptions, stageOptions, statusOptions, jobType,jobStatus,jobStage,sort,isLoading } = useAppSelector((store: RootState) => store.search);
+  const {page,limit} = useAppSelector((store: RootState) => store.jobs);
 
-  const [newSearch, setNewSearch] = useState(search);
+  const [newSearch, setNewSearch] = useState('');
   const [newsearchStatus, setNewsearchStatus] = useState('');
   const [fieldNewStatus, setFieldNewStatus] = useState('');
   const [newSort, setNewSort] = useState(sort);
@@ -50,13 +51,18 @@ const handleChanges=(e:any)=>{
     dispatch(clearFilter())
     dispatch(fetchJobLoad())
   };
+  let search = newSearch
+console.log("🚀 ~ search:", search)
+
+console.log("🚀 ~ search:", search)
   const onSubmit: SubmitHandler<FormValues> = async (e: any, data: any) => {
     e.preventDefault;
     // const fData = watch(data);
-let search = newSearch
-dispatch(fetchJobSearch({jobType, jobStatus, jobStage,sort,search}))
-
-
+    
+    let newPage = page
+    dispatch(handleSearch({search}))
+    dispatch(fetchJobSearch({jobType, jobStatus, jobStage,sort,search,newPage,limit}))
+    
     // dispatch(fetchCreateJob({ ...fData, createdBy: user?._id }))
     // console.log("🚀 ~ {...fData,createdBy:user?._id}:", {...fData,createdBy:user?._id})
   };

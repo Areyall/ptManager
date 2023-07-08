@@ -17,11 +17,6 @@ exports.deleteJob = async (req, res) => {
 };
 exports.getAllJobs = async (req, res) => {
   const { search, jobStatus, jobType, jobStage, sort } = req.query;
-  console.log("🚀 ~ jobStage:", jobStage)
-  console.log("🚀 ~ jobType:", jobType)
-  console.log("🚀 ~ jobStatus:", jobStatus)
-  console.log("🚀 ~ search:", search)
-  console.log("🚀 ~ sort:", sort)
 
   const mainELement = {
     createdBy: req.user._id,
@@ -52,18 +47,16 @@ exports.getAllJobs = async (req, res) => {
     finalSort = finalSort.sort('createdAt');
   }
 
-  let limit = Number(req.query.limit || 3),
+  let limit = Number(req.query.limit || 2),
     page = Number(req.query.page || 1),
     skip = (page - 1) * limit;
 
-    finalSort.skip(skip).limit(limit);
-  
+  finalSort.skip(skip).limit(limit);
 
   const jobs = await finalSort;
   totalJobs = await Job.countDocuments(mainELement);
   const numOfPages = Math.ceil(totalJobs / limit);
-
-  res.status(200).json({ jobs, totalJobs: jobs.length, numberOfPages: numOfPages, limit });
+  res.status(200).json({ jobs, totalJobs, numberOfPages: numOfPages, limit, page });
 };
 
 exports.updateJob = async (req, res) => {

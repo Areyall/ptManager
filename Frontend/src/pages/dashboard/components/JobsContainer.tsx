@@ -1,4 +1,4 @@
-import { fetchJobLoad, fetchJobPageLoad } from '@/reducers/jobReducer';
+import { fetchJobLoad, fetchJobSearch } from '@/reducers/jobReducer';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import { useState, useEffect, Fragment } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -8,11 +8,16 @@ import { Link, redirect } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 function JobsContainer() {
-  const { jobs, totalJobs, page, isLoading, numOfPages, limit } =
-    useAppSelector((store: RootState) => store.jobs);
+  const { jobs, totalJobs, page, isLoading, numberOfPages, limit } =
+  useAppSelector((store: RootState) => store.jobs);
+
+  const {  jobType,jobStatus,jobStage,sort,search } = useAppSelector((store: RootState) => store.search);
+  const data = useAppSelector((store: RootState) => store.search);
+  console.log("🚀 ~ data:", data)
+
   const { filteredJobs, isFiltered } = useAppSelector(
     (store: RootState) => store.search,
-  );
+    );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -32,19 +37,19 @@ function JobsContainer() {
   let list, newNumOfPages;
   if ( isFiltered === false) {
     list = jobs;
-    newNumOfPages = numOfPages
     // newNumOfPages = Math.ceil(jobs.length / limit);
   } else {
     list = filteredJobs.jobs;
     newNumOfPages = Math.ceil(filteredJobs.jobs.length / limit);
   }
   // console.log("🚀 ~ newNumOfPages:",jobs, limit,newNumOfPages)/
-
+  
+  console.log("🚀 ~ search:", search)
   const handlePageClick = (e: any) => {
     let newPage = e.selected + 1,
-      newLimit = 3;
+      newLimit = 2;
 
-    dispatch(fetchJobPageLoad({ newPage, newLimit }));
+    dispatch(fetchJobSearch({ jobType,jobStatus,jobStage,sort,search,newPage }));
   };
   return (
     <div className="m-auto max-w-4xl">
@@ -52,11 +57,10 @@ function JobsContainer() {
         <Loading />
       ) : (
         <h2 className="font-semi-bold text-2xl">
-         {jobs.length > 1 ? `${jobs.length} Jobs Found` : `${jobs.length} Job Found`}   
+         {jobs.length > 1 ? `${totalJobs} Jobs Found` : `${totalJobs} Job Found`}   
         </h2>
       )}
       <div className="grid grid-cols-2 gap-4">
-        {console.log(isFiltered)}
         {list?.map((job: any, inx: number) => (
           <JobCard
             key={job._id}
@@ -79,7 +83,7 @@ function JobsContainer() {
         onPageChange={(e) => handlePageClick(e)}
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
-        pageCount={newNumOfPages}
+        pageCount={numberOfPages}
         previousLabel="< prev"
         pageClassName="page-item"
         pageLinkClassName=" btn btn-sm btn-outline btn-secondary-content bg-transparent"
