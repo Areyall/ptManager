@@ -1,7 +1,9 @@
-import { fetchUserUpdate } from '@/reducers/userReducer';
+import { clearStatusField, fetchUserUpdate } from '@/reducers/userReducer';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import { useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type FormValues = {
   username: string;
@@ -19,7 +21,7 @@ function Profile() {
 
   // const { onChange, onBlur, name, ref } = register('username');
 
-  const { user } = useAppSelector((store: RootState) => store.user);
+  const { user, status } = useAppSelector((store: RootState) => store.user);
   const dispatch = useAppDispatch();
 
   const [newName, setName] = useState(user?.email);
@@ -30,6 +32,18 @@ function Profile() {
     const fData = watch(data);
     dispatch(fetchUserUpdate(fData));
   };
+console.log(status)
+  useEffect(() => {
+    if (status === 'success') {
+      toast.success('Profile updated successfuly')
+      dispatch(clearStatusField())
+    }
+    if (status === 'error') {
+      toast.error('Something went wrong')
+      dispatch(clearStatusField())
+    }
+  }, [status])
+  
 
   return (
     <>

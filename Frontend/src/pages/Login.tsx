@@ -1,4 +1,4 @@
-import { fetchLogin, fetchUserLoad } from '@/reducers/userReducer';
+import { clearStatusField, fetchLogin, fetchUserLoad } from '@/reducers/userReducer';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { addUserToLocalStorage } from '@/utils/localStorage';
 import { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ type FormValues = {
 function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user, token, isAuthenticated, loading, error } = useAppSelector(
+  const { user, token, isAuthenticated, loading, error,status } = useAppSelector(
     (store) => store.user,
   );
 
@@ -45,7 +45,22 @@ function Login() {
     dispatch(
       fetchLogin({ email: 'demo123mail@gmail.com', password: 'demo1234' }),
     );
+
   };
+useEffect(() => {
+  
+  if (status === 'success') {
+    toast.success(`Wellcome ${user?.username}`)
+    dispatch(clearStatusField())
+  }
+  if (status === 'error') {
+    toast.error(`Something went wrong`)
+
+    dispatch(clearStatusField())
+  }
+}, [status])
+
+
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchUserLoad());

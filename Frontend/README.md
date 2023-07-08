@@ -210,7 +210,11 @@ export default store
 
 ## 26 Back pagination 
 
+## UI corrections 
 
+    + Icons
+    + Warnings
+    + Notifications
     
 
   

@@ -42,6 +42,7 @@ interface Job {
 interface jobSliceState {
   isEditing: boolean;
   job: Job | null;
+  status: string | null;
 }
 
 const JOB_INITIAL_STATE: jobSliceState = {
@@ -57,15 +58,16 @@ const JOB_INITIAL_STATE: jobSliceState = {
     jobConnectionDate: '',
     jobComment: '',
   },
+  status: null
 };
 
 export const jobSlice = createSlice({
   name: 'job',
   initialState: JOB_INITIAL_STATE,
   reducers: {
-    //   InitialLoading: (state, action) => {
-    //     state.isAuthenticated = action.payload;
-    //   },
+      clearStatusField: (state) => {
+        state.status = null;
+      },
   },
   extraReducers: (builder) => {
     builder
@@ -76,9 +78,12 @@ export const jobSlice = createSlice({
       .addCase(fetchCreateJob.fulfilled, (state, action) => {
         // state.isEditing = true;
         state.job = action.payload.job;
+        state.status = 'success';
+        
       })
       .addCase(fetchCreateJob.rejected, (state, action) => {
         // state.isEditing = false;
+        state.status = 'error';
         state.isEditing = false;
         state.job = null;
         // state.error = action.payload;
@@ -315,4 +320,5 @@ export const jobsSearch = createSlice({
 });
 
 export const { handleChange,handleSearch, clearFilter } = jobsSearch.actions;
+export const { clearStatusField } = jobSlice.actions;
 // export const { ReloadData } = jobSlice.actions

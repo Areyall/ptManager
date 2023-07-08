@@ -377,7 +377,7 @@
 
 ## 24 frnot inputs
 
-## 25 Pagination 
+## 26 Pagination 
         mongoose limit = 2, skip = 1
         +  Mongoose provides the skip() and limit() methods to handle pagination.
         + Calculate the skip value based on the current page and page size
@@ -390,6 +390,12 @@
                         the reducers that dispatch page to glodal store with a single number
                 update total jobs inialy and after sorting 
 
+## 27 Setup demo user 
+        bind button to login request
+        upload dummy DB data
+                https://www.mockaroo.com/schemas/543603
 
+
+## 28 
 
 

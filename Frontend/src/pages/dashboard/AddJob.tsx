@@ -1,8 +1,10 @@
-import { fetchCreateJob } from '@/reducers/jobReducer';
+import { clearStatusField, fetchCreateJob } from '@/reducers/jobReducer';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import { useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Inputs } from './components/elements/inputs';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type FormValues = {
   company: string;
@@ -17,7 +19,7 @@ type FormValues = {
 };
 
 function AddJob() {
-  const { job } = useAppSelector((store: RootState) => store.job);
+  const { job, status } = useAppSelector((store: RootState) => store.job);
   const { user } = useAppSelector((store: RootState) => store.user);
 
   const [newCompany, setNewCompany] = useState(job?.company || '');
@@ -29,6 +31,20 @@ function AddJob() {
   const [newDate, setNewDate] = useState(job?.jobConnectionDate || '');
   const [newComment, setNewComment] = useState(job?.jobComment || '');
   const [newLink, setNewLink] = useState('/');
+
+useEffect(() => {
+  if (status === 'success') {
+    toast.success('Job Added Successfully')
+    dispatch(clearStatusField())
+  }
+  if (status === 'error') {
+    toast.error('Something went wrong')
+    dispatch(clearStatusField())
+  }
+
+  
+}, [status])
+
 
   const {
     register,
@@ -48,6 +64,7 @@ function AddJob() {
   };
   return (
     <>
+    {/* <ToastContainer position='top-center'/> */}
       <div className="bg-base-200 p-8">
         <div className=" bg-base-200p-4 m-auto max-w-2xl rounded">
           <form

@@ -65,6 +65,7 @@ interface UserSliceState {
   isAuthenticated: boolean;
   token: string;
   error: string;
+  status: string|null;
 }
 
 const USER_INITIAL_STATE: UserSliceState = {
@@ -73,6 +74,7 @@ const USER_INITIAL_STATE: UserSliceState = {
   isAuthenticated: false,
   token: '',
   error: '',
+  status: null,
 };
 
 export const userSlice = createSlice({
@@ -82,6 +84,9 @@ export const userSlice = createSlice({
     InitialLoading: (state, action) => {
       state.isAuthenticated = action.payload;
     },
+      clearStatusField: (state) => {
+        state.status = null;
+      },
   },
   extraReducers: (builder) => {
     builder
@@ -93,10 +98,12 @@ export const userSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        state.status = 'success'
       })
       .addCase(fetchLogin.rejected, (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
+        state.status = 'error'
         state.user = null;
       });
 
@@ -142,11 +149,13 @@ export const userSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload;
+        state.status = 'success'
       })
       .addCase(fetchUserUpdate.rejected, (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
         state.user = null;
+        state.status = 'error'
       });
 
     // 	// Logout
@@ -166,5 +175,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { InitialLoading } = userSlice.actions;
+export const { InitialLoading,clearStatusField } = userSlice.actions;
 // export const { ReloadData } = userSlice.actions

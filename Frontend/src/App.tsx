@@ -28,21 +28,21 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Dashboard />}>
-            <Route index element={<Stats />} />
-            <Route path="/addjob" element={<AddJob />} />
-            <Route path="/:id" element={<AddJob />} />
-            <Route path="/alljobs" element={<AllJobs />} />
-            <Route path="/profile" element={<Profile />} />
-          </Route>
+        {/* <Route element={<ProtectedRoute />}> */}
+        <Route path="/" element={<Dashboard />}>
+          <Route index element={<Stats />} />
+          <Route path="/addjob" element={<AddJob />} />
+          <Route path="/:id" element={<AddJob />} />
+          <Route path="/alljobs" element={<AllJobs />} />
+          <Route path="/profile" element={<Profile />} />
+          {/* </Route> */}
         </Route>
-
-        <Route path="intro" element={<Landing />} />
-        <Route path="login" element={<Login />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
-      <ToastContainer />
+      
+      <Route path="intro" element={<Landing />} />
+      <Route path="login" element={<Login />} />
+      <Route path="*" element={<Error />} />
+</Routes>
+      <ToastContainer position="top-center" />
     </BrowserRouter>
   );
 };
