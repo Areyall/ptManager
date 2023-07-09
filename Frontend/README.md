@@ -214,7 +214,7 @@ export default store
 
     + Icons
     + Warnings
-    + Notifications
+    + Notificationss
     
 
   
