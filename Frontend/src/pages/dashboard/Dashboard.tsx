@@ -23,7 +23,7 @@ function Dashboard() {
         </div>
         <div className="flex w-full flex-col">
           <TopNavBar />
-          <div className=" ">
+          <div className="">
             <Outlet />
           </div>
         </div>
