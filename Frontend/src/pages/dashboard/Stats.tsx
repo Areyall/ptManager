@@ -8,12 +8,12 @@ function Stats() {
   const dispatch = useAppDispatch();
   const { stats, isLoading } = useAppSelector((storage) => storage.stats);
   
-  useEffect(() => {
-    if (isLoading === false) {
+  // useEffect(() => {
+  //   if (isLoading === false) {
       
-      dispatch(fetchJobStats())
-    }
-  }, [])
+  //     dispatch(fetchJobStats())
+  //   }
+  // }, [])
   
 
   return (

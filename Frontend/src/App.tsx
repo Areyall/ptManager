@@ -15,6 +15,7 @@ import Stats from './pages/dashboard/Stats';
 import ProtectedRoute from './utils/ProtectedRoute';
 import { useEffect } from 'react';
 import { fetchUserLoad, InitialLoading } from '@/reducers/userReducer';
+import MainTaskPage from './pages/dashboard/components/tasks/MainTaskPage';
 
 const App = () => {
   // useEffect(() => {
@@ -28,14 +29,14 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route element={<ProtectedRoute />}> */}
+        <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Dashboard />}>
           <Route index element={<Stats />} />
           <Route path="/addjob" element={<AddJob />} />
-          <Route path="/:id" element={<AddJob />} />
+          <Route path="/job/:jobId" element={<MainTaskPage />} />
           <Route path="/alljobs" element={<AllJobs />} />
           <Route path="/profile" element={<Profile />} />
-          {/* </Route> */}
+          </Route>
         </Route>
       
       <Route path="intro" element={<Landing />} />

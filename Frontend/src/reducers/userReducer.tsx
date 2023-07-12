@@ -13,6 +13,7 @@ const fetchUserEdinAction = createAction('user/userEditData');
 export const fetchLogin = createAsyncThunk(
   fetchLoginAction as unknown as string,
   async (fData: object, thunkApi) => {
+    console.log("🚀 ~ fData:", fData)
     // const link = `${customAxiosFetch}/user`;
     const config = {
       headers: {
@@ -27,7 +28,6 @@ export const fetchLogin = createAsyncThunk(
         fData,
         config,
       );
-      console.log(response.data);
       return response.data;
     } catch (error: any) {
       return thunkApi.rejectWithValue(error.message);

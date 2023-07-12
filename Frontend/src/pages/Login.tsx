@@ -1,4 +1,9 @@
-import { clearStatusField, fetchLogin, fetchUserLoad } from '@/reducers/userReducer';
+import { fetchJobStats } from '@/reducers/jobReducer';
+import {
+  clearStatusField,
+  fetchLogin,
+  fetchUserLoad,
+} from '@/reducers/userReducer';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { addUserToLocalStorage } from '@/utils/localStorage';
 import { useEffect, useState } from 'react';
@@ -16,9 +21,8 @@ type FormValues = {
 function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user, token, isAuthenticated, loading, error,status } = useAppSelector(
-    (store) => store.user,
-  );
+  const { user, token, isAuthenticated, loading, error, status } =
+    useAppSelector((store) => store.user);
 
   const {
     register,
@@ -45,25 +49,24 @@ function Login() {
     dispatch(
       fetchLogin({ email: 'demo123mail@gmail.com', password: 'demo1234' }),
     );
-
   };
-useEffect(() => {
-  
-  if (status === 'success') {
-    toast.success(`Wellcome ${user?.username}`)
-    dispatch(clearStatusField())
-  }
-  if (status === 'error') {
-    toast.error(`Something went wrong`)
+  useEffect(() => {
+    if (status === 'success') {
+      toast.success(`Wellcome ${user?.username}`);
 
-    dispatch(clearStatusField())
-  }
-}, [status])
+      dispatch(clearStatusField());
+    }
+    if (status === 'error') {
+      toast.error(`Something went wrong`);
 
+      dispatch(clearStatusField());
+    }
+  }, [status]);
 
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchUserLoad());
+      dispatch(fetchJobStats());
       addUserToLocalStorage(user!);
       if (error) {
         toast.error('Wrong email or password');
@@ -106,7 +109,11 @@ useEffect(() => {
             Submit
           </button>
         </form>
-        <button type="submit" className="btn-outline btn" onClick={() => onDemoUserEnter()}>
+        <button
+          type="submit"
+          className="btn-outline btn"
+          onClick={() => onDemoUserEnter()}
+        >
           Demo user
         </button>
         <div className="pt-8">
@@ -121,10 +128,7 @@ useEffect(() => {
               >
               {isMember ? 'Register' : 'Login'}
             </button> */}
-            <button
-              className="btn-outline btn-disabled btn-sm btn "
-              
-            >
+            <button className="btn-outline btn-disabled btn-sm btn ">
               Register
             </button>
           </div>

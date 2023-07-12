@@ -9,11 +9,11 @@ import { useAppDispatch, useAppSelector } from '@/store';
 function Dashboard() {
   const { user } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (!user) {
-      dispatch(fetchUserLoad());
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!user) {
+  //     dispatch(fetchUserLoad());
+  //   }
+  // }, []);
 
   return (
     <>

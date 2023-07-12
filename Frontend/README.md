@@ -1,56 +1,55 @@
 ## Productivity Manager Frontend
 
 ## 6.1 What's New in 6.4 / NEW RELEASE, enables "client side routing" by creating a `Router` and linking/submitting to pages with `Link` and `<Form>`
+
 `<Route path="dashboard" element={<Dashboard />} loader={({ request }) => fetch("/api/dashboard.json", { signal: request.signal, }) } />`
 
 !! 6.4 not copletely ready just yet
-+ setup routes `import { BrowserRouter, Route, Routes } from 'react-router-dom';`
 
+- setup routes `import { BrowserRouter, Route, Routes } from 'react-router-dom';`
 
 ## Redux react-redux + TypeScript
-
 
 // Reducer.tsx
 
     import { createSlice } from '@reduxjs/toolkit';
 
 interface UserSliceState {
-  isLoading: boolean;
-  user: null;
+isLoading: boolean;
+user: null;
 }
 
 const USER_INITIAL_STATE: UserSliceState = {
-  isLoading: false,
-  user: null,
+isLoading: false,
+user: null,
 };
 
 export const userSlice = createSlice({
-  name: 'user',
-  initialState: USER_INITIAL_STATE,
-  reducers: {
-    ShowLoading: (state, action) => {
-      state.isLoading = action.payload;
-    },
-  },
+name: 'user',
+initialState: USER_INITIAL_STATE,
+reducers: {
+ShowLoading: (state, action) => {
+state.isLoading = action.payload;
+},
+},
 });
-
 
 export const { ShowLoading } = userSlice.actions;
 
 // Store.tsx
 
     import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { useDispatch,useSelector, TypedUseSelectorHook  } from 'react-redux';
+
+import { useDispatch,useSelector, TypedUseSelectorHook } from 'react-redux';
 import { userSlice } from './reducers/userReducer';
 
 const rootReducer = combineReducers({
- user : userSlice.reducer
+user : userSlice.reducer
 });
 
 const store = configureStore({
-  reducer: rootReducer,
+reducer: rootReducer,
 });
-
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
@@ -61,31 +60,31 @@ export const useAppDispatch: () => AppDispatch = useDispatch
 export default store
 
 ## 12 HTTP Requests / VERBs for login/register
-    
+
             HTTP request logger middleware -> npm i morgan
 
             npm i axios
-            GET ->  axios/instance.get(url[, config]) // axios.get(url, options) 
+            GET ->  axios/instance.get(url[, config]) // axios.get(url, options)
             POST ->  axios/customAxiosFetch.post(url[, data[, config]]) // axios.post(url,resource,options)
 
             Custom instance defaults
             // Set config defaults when creating the instance
                     const instance = axios.create({
                     baseURL: 'https://api.example.com'
-                    }); 
+                    });
                     //
                     const customAxiosFetch = axios.create({
                     baseURL: 'http://127.0.0.1:4000/api/v1'
                   });
 
 ## 14 Dashboard
-   addJob, allJobs,  Profile, Stats
 
-   14.1 navbar, sidebars
+addJob, allJobs, Profile, Stats
 
-   14.2 Sidebar style and navigation setup
-    - Optimization render list of buttons with .map
-   
+14.1 navbar, sidebars
+
+14.2 Sidebar style and navigation setup - Optimization render list of buttons with .map
+
 ## 15 Back protected routes + Frontend
 
     Protected routes component:
@@ -93,9 +92,9 @@ export default store
       initiation:
 
         if (!isAuthenticated ) {
-			dispatch(fetchUserLoad()).unwrap().catch((error) => {
-			  console.error('Error fetching user data:', error);
-			}); }}}, [isAuthenticated, dispatch])
+    		dispatch(fetchUserLoad()).unwrap().catch((error) => {
+    		  console.error('Error fetching user data:', error);
+    		}); }}}, [isAuthenticated, dispatch])
 
       then:
          useEffect(() => {
@@ -105,16 +104,17 @@ export default store
           }, []);
 
 ## 16 Profile update page
-  
-    Steps: 
+
+    Steps:
       + include global store
       + useState
       + make form to collect data with submit ->
           ++ submit logic function
-      
-      ?+ patches: useForm() 'react-hook-form' 
+
+      ?+ patches: useForm() 'react-hook-form'
 
 ## 17 HTTP Requests settings
+
     cases where you may need to send header:
       1.Authorization: send an authorization token with your request
           // If you are using cookies for authentication, you typically don't need to include the Authorization header explicitly in your requests //
@@ -127,12 +127,12 @@ export default store
       4. Custom headers:
 
         1.1 authorization via an Authorization header
-        +Frontend 
+        +Frontend
           const response = await axios.put('/user/updateUser', fData, {
             headers: {
               Authorization: `Bearer ${token}`, },});
-        
-        +Backend 
+
+        +Backend
             const updateUser = async (req, res) => {
             const { authorization } = req.headers;
             // Extract the token from the Authorization header
@@ -170,9 +170,11 @@ export default store
 ## 16 Backend Job Model
 
 ## 17 Job redux slices
-  separate slice + logic
+
+separate slice + logic
 
 ## 18 All jobs page
+
     18.1 component for jobs
     18.2 component for single job card
     18.3 redirect to single job card details
@@ -180,46 +182,55 @@ export default store
 # 19 BAckend stats
 
 ## 20 Frontend stats page
-  + setup separate reducers
-    -> specifu useAppSelector, so it load oly chunk
-      -> load dataconditionaly
-      
-  + Structure x3 files Stat, StatContainer, ChartsContainer, StatItems
-  + Hardcoded data with job status
-  + Stats at dashboard
+
+- setup separate reducers
+  -> specifu useAppSelector, so it load oly chunk
+  -> load dataconditionaly
+- Structure x3 files Stat, StatContainer, ChartsContainer, StatItems
+- Hardcoded data with job status
+- Stats at dashboard
 
 ## 21 Backend
 
-## 22 Charts 
-  + Recharts -> npm i recharts
-   ++ BarChart && AreaChart
+## 22 Charts
+
+- Recharts -> npm i recharts
+  ++ BarChart && AreaChart
 
 ## 24 Search inputs
+
     + Redux slice + initial values
-    
+
           {/* <input type="reset" value="Reset"></input> */}
           The Selection inputs, onChange dispatching every single one.
           gather the Storage data, display filtered Jobs.
 
-##  25 Pagination
+## 25 Pagination
+
         npm i react-paginate
 
           manual instalation
             some frontend component variables, styling
 
+## 26 Back pagination
 
-## 26 Back pagination 
-
-## UI corrections 
+## UI corrections
 
     + Icons
     + Warnings
     + Notificationss
-    
 
-  
-  
+    + Typescript + Global + popup
+      declare global {
+        interface Window {
+            modal3:any;
+        }
+    }
 
 
 
-              
+
+
+
+
+

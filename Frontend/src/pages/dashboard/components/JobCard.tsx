@@ -70,7 +70,7 @@ function JobCard({
           </div>
           
         </div>
-        <Link to={`/${jobCardHandler}`} className='btn btn-sm  mt-6 btn-neutral btn-outline'>Details</Link>
+        <Link to={`/job/${jobCardHandler}`} className='btn btn-sm  mt-6 btn-neutral btn-outline'>Details</Link>
       </div>
     </>
   );
