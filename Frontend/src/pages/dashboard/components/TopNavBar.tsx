@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Icon from './elements/icon';
 // import { useNavigate } from 'react-router-dom';
 
 function TopNavBar() {
@@ -44,19 +45,19 @@ function TopNavBar() {
               </li>
             </ul>
           </div>
-          <Link to={'/'} className="btn-ghost btn text-xl normal-case">
-            PtManager
+          <Link to={'/'} className="w-full max-w-[150px]">
+          <Icon icon='logo' size=''/>
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
+          {/* <ul className="menu menu-horizontal px-1">
             <li>
               <Link to={'/addjob'}>Add job</Link>
             </li>
             <li>
               <Link to={'/alljobs'}>All jobs</Link>
             </li>
-          </ul>
+          </ul> */}
         </div>
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
@@ -66,7 +67,7 @@ function TopNavBar() {
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
+            className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-52 bg-base-300 p-2 shadow"
           >
             <li>
               <Link to={'/profile'} className="justify-between">

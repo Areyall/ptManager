@@ -53,7 +53,7 @@ function StatContainer({ stats }: any) {
    
   ];
   return (
-    <div className="m-auto flex max-w-4xl pt-4 flex-col gap-4">
+    <div className="m-auto text-accent-content flex max-w-4xl pt-4 flex-col gap-4">
       <div className="flex flex-row gap-4">
         {statsCardsMain?.map((stat: any) => (
           <StatsItem

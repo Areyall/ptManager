@@ -66,7 +66,7 @@ function Login() {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchUserLoad());
-      dispatch(fetchJobStats());
+      // dispatch(fetchJobStats());
       addUserToLocalStorage(user!);
       if (error) {
         toast.error('Wrong email or password');

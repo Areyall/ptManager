@@ -61,8 +61,24 @@ exports.getAllJobs = async (req, res) => {
     .json({ jobs, totalJobs, numberOfPages: numOfPages, limit, page });
 };
 
+
+exports.singleJobDetails = async (req, res) => {
+  // console.log("🚀 ~ req:", req.params.id)
+  const job = await Job.findById(req.params.id);
+
+  res.status(200).json({
+    singleJobInfo: job,
+    status:'success'
+  })
+};
+
+
 exports.updateJob = async (req, res) => {
+  const job = Job.findByIdAndUpdate(req.id)
+  
   res.send(' updateJob Job');
+
+
 };
 
 exports.showStatsJob = async (req, res) => {

@@ -5,6 +5,7 @@ import { createAsyncThunk, createAction, createSlice } from '@reduxjs/toolkit';
 
 const fetchJobAction = createAction('job/jobDetails');
 const fetchJobLoadAction = createAction('jobs/allJobs');
+const fetchSingleJobAction = createAction('singleJob/singleJob');
 const fetchJobPageAction = createAction('jobs/pageJobs');
 const jobsStatsAction = createAction('jobsStats/allStats');
 const jobsSearchAction = createAction('jobsSearch/allSearch');
@@ -215,6 +216,63 @@ export const jobsAll = createSlice({
   },
 });
 
+
+export const fetchJobDetails = createAsyncThunk(
+  fetchSingleJobAction as unknown as string,
+  async (jobId: string) => {
+    const response = await customAxiosFetch.get(`/job/${jobId}`,);
+    
+    console.log("🚀 ~ response:", response.data)
+   return response.data;
+  },
+);
+
+interface singleJobSliceState {
+  singleJobInfo: any;
+  isLoading: boolean
+  status: string
+}
+
+const SINGLE_JOB_DETAILS: singleJobSliceState = {
+  singleJobInfo: [],
+  isLoading: false,
+  status: ''
+};
+export const singleJob = createSlice({
+  name: 'singleJob',
+  initialState: SINGLE_JOB_DETAILS,
+  reducers: {
+    //   InitialLoading: (state, action) => {
+    //     state.isAuthenticated = action.payload;
+    //   },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchJobDetails.pending, (state, _action) => {
+        state.isLoading = true;
+        // state.isAuthenticated = false;
+      })
+      .addCase(fetchJobDetails.fulfilled, (state, action) => {
+        // state.isEditing = true;
+        state.singleJobInfo = action.payload.singleJobInfo;
+        // state.totalJobs = action.payload.totalJobs;
+        state.isLoading = false;
+        state.status = 'success';
+        // state.numberOfPages = action.payload.numberOfPages;
+        // state.limit = action.payload.limit;
+      })
+      .addCase(fetchJobDetails.rejected, (state, action) => {
+        state.status = 'success';
+        // state.isEditing = false;
+        // state.isEditing = false;
+        state.singleJobInfo = null;
+        state.isLoading = false;
+        // state.error = action.payload;
+      });
+  
+  },
+});
+
 export const fetchJobStats = createAsyncThunk(
   jobsStatsAction as unknown as string,
   async () => {
@@ -231,8 +289,8 @@ interface JobsStatsType {
 
 const ALL_JOBS_STATS: JobsStatsType = {
   isLoading: false,
-  stats: {},
-  monthlyStats: {},
+  stats: [],
+  monthlyStats: [],
 };
 
 export const jobsStats = createSlice({

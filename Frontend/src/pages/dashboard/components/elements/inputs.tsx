@@ -85,6 +85,7 @@ export function SearchInputs({
         className="mt-0
         block w-full
       min-w-[150px]
+      p-1
       border-0
       border-b-2
       border-base-300 bg-base-100 px-0.5 pl-3

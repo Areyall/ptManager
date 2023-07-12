@@ -51,7 +51,7 @@ function JobCard({
           </div>
           <div className="w-2/3 flex items-start gap-1  flex-col">
 
-            <div className="text-3xl font-semibold text-base-content"> {position}</div>
+            <h2 className="text-2xl font-semibold text-base-content"> {position}</h2>
             <a href={jobLink} target='_blank' className="link-accent link font-semibold text-xl" rel="noreferrer">
               {company}
             </a>

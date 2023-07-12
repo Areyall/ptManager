@@ -8,7 +8,7 @@ function SideNav() {
   return (
     <>
       <div className="flex w-full h-screen flex-col gap-4 ">
-        <h1 className="w-full text-center">Logo</h1>
+        <h1 className="w-full text-center px-3"></h1>
         <div>
           <Link
             to={'/addjob'}
@@ -41,7 +41,7 @@ function SideNav() {
         </div>
       </div>
       <div className=" flex w-full flex-col gap-1"></div>
-      <div>Credentials</div>
+      <div>Made by <a href="https://aykyiv.vercel.app/" target='_blank' rel='noreferrer' className='btn btn-xs btn-outline'>AYKyiv</a></div>
     </>
   );
 }

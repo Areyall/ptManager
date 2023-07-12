@@ -15,7 +15,7 @@ import Stats from './pages/dashboard/Stats';
 import ProtectedRoute from './utils/ProtectedRoute';
 import { useEffect } from 'react';
 import { fetchUserLoad, InitialLoading } from '@/reducers/userReducer';
-import MainTaskPage from './pages/dashboard/components/tasks/MainTaskPage';
+import MainTaskPage from './pages/dashboard/components/tasks/MainJobPage';
 
 const App = () => {
   // useEffect(() => {

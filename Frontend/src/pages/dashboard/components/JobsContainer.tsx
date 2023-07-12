@@ -57,7 +57,7 @@ function JobsContainer() {
          {jobs.length > 1 ? `${totalJobs} Jobs Found` : `${totalJobs} Job Found`}   
         </h2>
       )}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
         {list?.map((job: any, inx: number) => (
           <JobCard
             key={job._id}
