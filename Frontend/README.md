@@ -228,6 +228,20 @@ separate slice + logic
     }
 
 
+## 27 Single element page setup:
+
+    + edit element: 
+      UseEffect 
+        -> useState
+        -> setValue -> const {  => on triger seted up initial values of FORM DATA
+                        register,
+                        handleSubmit,
+                        watch,
+                        setValue, 
+                        formState: { errors },
+                      } = useForm<FormValues>();
+
+
 
 
 

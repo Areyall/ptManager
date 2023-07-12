@@ -51,6 +51,7 @@ export function Inputs({
     <>
       <h2>{title}:</h2>
       <input
+      
         className="mt-0
         block w-full
       border-0
@@ -59,6 +60,7 @@ export function Inputs({
       bg-base-100 px-0.5 pl-3
       focus:border-black focus:ring-0"
         type={type}
+        defaultValue={value}
         value={value}
         {...register(label, {
           onChange: onChange,

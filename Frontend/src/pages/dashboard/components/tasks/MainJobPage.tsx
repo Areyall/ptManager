@@ -5,6 +5,7 @@ import { Inputs } from '../elements/inputs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { fetchJobDetails } from '@/reducers/jobReducer';
 import Loading from '../elements/loading';
+import EditJob from './Elements/EditJob';
 
 declare global {
   interface Window {
@@ -12,6 +13,7 @@ declare global {
     modalDelete: any;
   }
 }
+
 type FormValues = {
   company: string;
   position: string;
@@ -24,6 +26,7 @@ type FormValues = {
   jobComment: string;
 };
 
+
 interface Params {
   jobId: string;
 }
@@ -33,26 +36,49 @@ function MainTaskPage() {
 
   const { singleJobInfo, isLoading } = useAppSelector(
     (store: RootState) => store.singleJob,
-  );
-  const [updateCompany, setUpdateCompany] = useState('');
+    );
+    // console.log("🚀 ~ singleJobInfo:", singleJobInfo.company)
+
+
 
   const { jobId } = useParams<keyof Params>() as Params;
+
+  const dispatch = useAppDispatch();
+
+  const [updateCompany, setUpdateCompany] = useState('');
+  console.log('🚀 ~ singleJobInfo.company:', singleJobInfo.company);
+  console.log('🚀 ~ updateCompany:', updateCompany);
+  const [updatePosition, setUpdatePosition] = useState('');
+  const [updateType, setUpdateType] = useState('');
+  const [updateStatus, setUpdateStatus] = useState('');
+  const [updateStage, setUpdateStage] = useState('');
+  const [updateLocation, setUpdateLocation] = useState('');
+  const [updateDate, setUpdateDate] = useState('');
+  const [updateComment, setUpdateComment] = useState('');
+  const [updateLink, setUpdateLink] = useState('/');
+  const [newTriger, setnewTriger] = useState(false);
+
+
   const {
     register,
     handleSubmit,
     watch,
+    setValue, 
     formState: { errors },
   } = useForm<FormValues>();
-
-  const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<FormValues> = async (e: any, data: any) => {
     e.preventDefault;
     const fData = watch(data);
 
+    console.log("🚀 ~ fData:", fData)
+
     // dispatch(fetchCreateJob({ ...fData, createdBy: user?._id }));
     // console.log("🚀 ~ {...fData,createdBy:user?._id}:", {...fData,createdBy:user?._id})
   };
+ 
+  
+
   useEffect(() => {
     dispatch(fetchJobDetails(jobId));
   }, []);
@@ -64,7 +90,9 @@ function MainTaskPage() {
         <div className="flex gap-4">
           <button
             className="btn-outline btn-warning btn-sm btn"
-            onClick={() => window.modalEdit.showModal()}
+            onClick={() =>{
+              setnewTriger(true)
+              window.modalEdit.showModal()}}
           >
             Update
           </button>
@@ -185,31 +213,7 @@ function MainTaskPage() {
         </div> */}
       </div>
       <dialog id="modalEdit" className="modal">
-        <div className="modal-box">
-          <button
-            onClick={() => window.modalEdit.close()}
-            className="btn-ghost btn-sm btn-circle btn absolute right-2 top-2"
-          >
-            ✕
-          </button>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
-          >
-            <h1 className="text-3xl">Update Application</h1>
-            <div>
-              <Inputs
-                title="Company"
-                value={updateCompany}
-                type="text"
-                register={register}
-                label="company"
-                onChange={(e: any) => setUpdateCompany(e.target.value)}
-                required={true}
-              />
-            </div>
-          </form>
-        </div>
+      <EditJob cJobId={jobId} singleJobInfo={singleJobInfo} triger={newTriger}/>
       </dialog>
       <dialog id="modalDelete" className="modal">
         <form method="dialog" className="modal-box">
