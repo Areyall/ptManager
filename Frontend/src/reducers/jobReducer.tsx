@@ -6,6 +6,8 @@ import { createAsyncThunk, createAction, createSlice } from '@reduxjs/toolkit';
 const fetchJobAction = createAction('job/jobDetails');
 const fetchJobLoadAction = createAction('jobs/allJobs');
 const fetchSingleJobAction = createAction('singleJob/singleJob');
+const fetchEditJobAction = createAction('singleJob/editJob');
+const fetchDeleteJobAction = createAction('singleJob/deleteJob');
 const fetchJobPageAction = createAction('jobs/pageJobs');
 const jobsStatsAction = createAction('jobsStats/allStats');
 const jobsSearchAction = createAction('jobsSearch/allSearch');
@@ -59,16 +61,16 @@ const JOB_INITIAL_STATE: jobSliceState = {
     jobConnectionDate: '',
     jobComment: '',
   },
-  status: null
+  status: null,
 };
 
 export const jobSlice = createSlice({
   name: 'job',
   initialState: JOB_INITIAL_STATE,
   reducers: {
-      clearStatusField: (state) => {
-        state.status = null;
-      },
+    clearStatusField: (state) => {
+      state.status = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -80,7 +82,6 @@ export const jobSlice = createSlice({
         // state.isEditing = true;
         state.job = action.payload.job;
         state.status = 'success';
-        
       })
       .addCase(fetchCreateJob.rejected, (state, action) => {
         // state.isEditing = false;
@@ -119,7 +120,10 @@ interface jpProps {
 
 export const fetchJobSearch = createAsyncThunk(
   jobsSearchAction as unknown as string,
-  async ({ jobType, jobStatus, jobStage, sort, search, newPage }: any,thunkApi) => {
+  async (
+    { jobType, jobStatus, jobStage, sort, search, newPage }: any,
+    thunkApi,
+  ) => {
     let url = `/job?page=${newPage}&jobStatus=${jobStatus}&jobType=${jobType}&jobStage=${jobStage}&sort=${sort}`;
     if (search) {
       url = url + `&search=${search}`;
@@ -216,35 +220,58 @@ export const jobsAll = createSlice({
   },
 });
 
-
 export const fetchJobDetails = createAsyncThunk(
   fetchSingleJobAction as unknown as string,
   async (jobId: string) => {
-    const response = await customAxiosFetch.get(`/job/${jobId}`,);
-    
-    console.log("🚀 ~ response:", response.data)
-   return response.data;
+    const response = await customAxiosFetch.get(`/job/${jobId}`);
+
+    return response.data;
+  },
+);
+export const fetchEditJob = createAsyncThunk(
+  fetchEditJobAction as unknown as string,
+  async (fData: any) => {
+    const id = fData[0],
+      fdata = fData[1];
+
+    const response = await customAxiosFetch.put(`/job/${id}`, fdata);
+
+    return response.data;
+  },
+);
+export const fetchDeleteJob = createAsyncThunk(
+  fetchDeleteJobAction as unknown as string,
+  async (jobId: string) => {
+    let id = jobId;
+    const response = await customAxiosFetch.delete(`/job/${id}`);
+
+    return response.data;
   },
 );
 
 interface singleJobSliceState {
   singleJobInfo: any;
-  isLoading: boolean
-  status: string
+  isLoading: boolean;
+  status: string;
+  editStatus: string;
 }
 
 const SINGLE_JOB_DETAILS: singleJobSliceState = {
   singleJobInfo: [],
   isLoading: false,
-  status: ''
+  status: '',
+  editStatus: '',
 };
 export const singleJob = createSlice({
   name: 'singleJob',
   initialState: SINGLE_JOB_DETAILS,
   reducers: {
-    //   InitialLoading: (state, action) => {
-    //     state.isAuthenticated = action.payload;
-    //   },
+    clearStatus: (state, action) => {
+      state.status = action.payload;
+    },
+    reloadStatus: (state, action) => {
+      state.editStatus = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -262,14 +289,37 @@ export const singleJob = createSlice({
         // state.limit = action.payload.limit;
       })
       .addCase(fetchJobDetails.rejected, (state, action) => {
-        state.status = 'success';
+        state.status = 'error';
         // state.isEditing = false;
         // state.isEditing = false;
         state.singleJobInfo = null;
         state.isLoading = false;
         // state.error = action.payload;
       });
-  
+    builder
+      .addCase(fetchEditJob.pending, (state, _action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchEditJob.fulfilled, (state, action) => {
+        state.editStatus = action.payload.status;
+        state.isLoading = false;
+      })
+      .addCase(fetchEditJob.rejected, (state, action) => {
+        state.status = 'error';
+        state.isLoading = false;
+      });
+    builder
+      .addCase(fetchDeleteJob.pending, (state, _action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchDeleteJob.fulfilled, (state, action) => {
+        state.status = action.payload.status;
+        state.isLoading = false;
+      })
+      .addCase(fetchDeleteJob.rejected, (state, action) => {
+        state.status = 'error';
+        state.isLoading = false;
+      });
   },
 });
 
@@ -377,6 +427,7 @@ export const jobsSearch = createSlice({
   extraReducers: (builder) => {},
 });
 
-export const { handleChange,handleSearch, clearFilter } = jobsSearch.actions;
+export const { handleChange, handleSearch, clearFilter } = jobsSearch.actions;
 export const { clearStatusField } = jobSlice.actions;
+export const { reloadStatus, clearStatus } = singleJob.actions;
 // export const { ReloadData } = jobSlice.actions

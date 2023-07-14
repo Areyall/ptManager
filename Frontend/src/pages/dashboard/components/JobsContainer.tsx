@@ -6,6 +6,8 @@ import Loading from './elements/loading';
 import JobCard from './JobCard';
 import { Link, redirect } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function JobsContainer() {
   const { jobs, totalJobs, page, isLoading, numberOfPages, limit } =
@@ -13,6 +15,10 @@ function JobsContainer() {
 
   const {  jobType,jobStatus,jobStage,sort,search } = useAppSelector((store: RootState) => store.search);
   const data = useAppSelector((store: RootState) => store.search);
+
+  const { status} = useAppSelector(
+    (store: RootState) => store.singleJob,
+  );
 
   const { filteredJobs, isFiltered } = useAppSelector(
     (store: RootState) => store.search,
@@ -24,6 +30,11 @@ function JobsContainer() {
       dispatch(fetchJobLoad());
     }
   }, []);
+  useEffect(() => {
+    if (status === 'delete success') {
+      toast.success('Job was deleted successfully')
+    }
+  }, [status]);
 
   const jobCardHandler = (id: any) => {
     console.log(id);

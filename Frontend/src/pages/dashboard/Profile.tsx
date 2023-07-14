@@ -35,7 +35,7 @@ function Profile() {
 console.log(status)
   useEffect(() => {
     if (status === 'success') {
-      toast.success('Profile updated successfuly')
+      toast.success('Profile updated successfully')
       dispatch(clearStatusField())
     }
     if (status === 'error') {

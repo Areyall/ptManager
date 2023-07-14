@@ -2,7 +2,7 @@ import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Inputs } from '../../elements/inputs';
-import { fetchJobDetails } from '@/reducers/jobReducer';
+import { fetchEditJob, fetchJobDetails } from '@/reducers/jobReducer';
 
 type FormValues = {
   company: string;
@@ -22,9 +22,8 @@ interface CotProps {
   singleJobInfo: any;
 }
 
-function EditJob({ cJobId,singleJobInfo, triger = false }: CotProps) {
-console.log("🚀 ~ triger:", triger)
-
+function EditJob({ cJobId, singleJobInfo, triger = false }: CotProps) {
+  const dispatch = useAppDispatch();
 
   const [updateCompany, setUpdateCompany] = useState(singleJobInfo.company);
   const [updatePosition, setUpdatePosition] = useState(
@@ -47,9 +46,9 @@ console.log("🚀 ~ triger:", triger)
     singleJobInfo?.jobComment || '',
   );
   const [updateLink, setUpdateLink] = useState(singleJobInfo?.jobLink || '/');
-  
-//   const [newTrigger, setnewTrigger] = useState(false);
-//   setnewTrigger(triger)
+
+  //   const [newTrigger, setnewTrigger] = useState(false);
+  //   setnewTrigger(triger)
   const {
     register,
     handleSubmit,
@@ -61,7 +60,10 @@ console.log("🚀 ~ triger:", triger)
   const onSubmit: SubmitHandler<FormValues> = async (e: any, data: any) => {
     e.preventDefault;
     const fData = watch(data);
-    console.log("🚀 ~ fData:", fData)
+    console.log('🚀 ~ fData:', fData);
+
+    dispatch(fetchEditJob([cJobId, fData]));
+    window.modalEdit.close();
 
     // dispatch(fetchCreateJob({ ...fData, createdBy: user?._id }));
     // console.log("🚀 ~ {...fData,createdBy:user?._id}:", {...fData,createdBy:user?._id})
@@ -77,16 +79,15 @@ console.log("🚀 ~ triger:", triger)
     setUpdateComment(singleJobInfo?.jobComment);
     setUpdateLink(singleJobInfo?.jobLink);
 
-    setValue("company", singleJobInfo.company)
-    setValue("position", singleJobInfo.position)
-    setValue("jobType", singleJobInfo.jobType)
-    setValue("jobStatus", singleJobInfo.jobStatus)
-    setValue("jobStage", singleJobInfo.jobStage)
-    setValue("jobLocation", singleJobInfo.jobLocation)
-    setValue("jobConnectionDate", singleJobInfo.jobConnectionDate)
-    setValue("jobComment", singleJobInfo.jobComment)
-    setValue("jobLink", singleJobInfo.jobLink)
-
+    setValue('company', singleJobInfo.company);
+    setValue('position', singleJobInfo.position);
+    setValue('jobType', singleJobInfo.jobType);
+    setValue('jobStatus', singleJobInfo.jobStatus);
+    setValue('jobStage', singleJobInfo.jobStage);
+    setValue('jobLocation', singleJobInfo.jobLocation);
+    setValue('jobConnectionDate', singleJobInfo.jobConnectionDate);
+    setValue('jobComment', singleJobInfo.jobComment);
+    setValue('jobLink', singleJobInfo.jobLink);
   }, [triger]);
 
   return (

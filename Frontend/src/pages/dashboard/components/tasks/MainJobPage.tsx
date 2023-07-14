@@ -1,11 +1,18 @@
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Inputs } from '../elements/inputs';
+import { useNavigate, useParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { fetchJobDetails } from '@/reducers/jobReducer';
+import {
+  clearStatus,
+  fetchDeleteJob,
+  fetchEditJob,
+  fetchJobDetails,
+  reloadStatus,
+} from '@/reducers/jobReducer';
 import Loading from '../elements/loading';
 import EditJob from './Elements/EditJob';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 declare global {
   interface Window {
@@ -26,7 +33,6 @@ type FormValues = {
   jobComment: string;
 };
 
-
 interface Params {
   jobId: string;
 }
@@ -34,36 +40,31 @@ interface Params {
 function MainTaskPage() {
   // const data = useAppSelector(store => store)
 
-  const { singleJobInfo, isLoading } = useAppSelector(
+  const { singleJobInfo, isLoading, status, editStatus } = useAppSelector(
     (store: RootState) => store.singleJob,
-    );
-    // console.log("🚀 ~ singleJobInfo:", singleJobInfo.company)
-
-
+  );
 
   const { jobId } = useParams<keyof Params>() as Params;
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [updateCompany, setUpdateCompany] = useState('');
-  console.log('🚀 ~ singleJobInfo.company:', singleJobInfo.company);
-  console.log('🚀 ~ updateCompany:', updateCompany);
-  const [updatePosition, setUpdatePosition] = useState('');
-  const [updateType, setUpdateType] = useState('');
-  const [updateStatus, setUpdateStatus] = useState('');
-  const [updateStage, setUpdateStage] = useState('');
-  const [updateLocation, setUpdateLocation] = useState('');
-  const [updateDate, setUpdateDate] = useState('');
-  const [updateComment, setUpdateComment] = useState('');
-  const [updateLink, setUpdateLink] = useState('/');
+  // const [updatePosition, setUpdatePosition] = useState('');
+  // const [updateType, setUpdateType] = useState('');
+  // const [updateStatus, setUpdateStatus] = useState('');
+  // const [updateStage, setUpdateStage] = useState('');
+  // const [updateLocation, setUpdateLocation] = useState('');
+  // const [updateDate, setUpdateDate] = useState('');
+  // const [updateComment, setUpdateComment] = useState('');
+  // const [updateLink, setUpdateLink] = useState('/');
   const [newTriger, setnewTriger] = useState(false);
-
 
   const {
     register,
     handleSubmit,
     watch,
-    setValue, 
+    setValue,
     formState: { errors },
   } = useForm<FormValues>();
 
@@ -71,17 +72,33 @@ function MainTaskPage() {
     e.preventDefault;
     const fData = watch(data);
 
-    console.log("🚀 ~ fData:", fData)
-
     // dispatch(fetchCreateJob({ ...fData, createdBy: user?._id }));
     // console.log("🚀 ~ {...fData,createdBy:user?._id}:", {...fData,createdBy:user?._id})
   };
- 
-  
+
+  const deleteJobHandler = (e: any) => {
+    e.preventDefault;
+
+    dispatch(fetchDeleteJob(jobId));
+
+    navigate('/alljobs');
+  };
 
   useEffect(() => {
     dispatch(fetchJobDetails(jobId));
+
+    if (status === 'success') {
+      dispatch(clearStatus(''));
+    }
   }, []);
+
+  useEffect(() => {
+    if (editStatus === 'success') {
+      dispatch(fetchJobDetails(jobId));
+      dispatch(reloadStatus(''));
+      toast.success('Job updated successfully');
+    }
+  }, [editStatus]);
 
   return (
     <>
@@ -90,9 +107,10 @@ function MainTaskPage() {
         <div className="flex gap-4">
           <button
             className="btn-outline btn-warning btn-sm btn"
-            onClick={() =>{
-              setnewTriger(true)
-              window.modalEdit.showModal()}}
+            onClick={() => {
+              setnewTriger(true);
+              window.modalEdit.showModal();
+            }}
           >
             Update
           </button>
@@ -180,7 +198,7 @@ function MainTaskPage() {
             </div>
             {singleJobInfo.jobLink !== '' ? (
               <div>
-                <h2 className="text-sm text-neutral-300">Company`s page</h2>
+                <h2 className="text-sm text-neutral-300">Company web page</h2>
                 <p className=" text-xl text-accent-content">
                   {singleJobInfo.jobLink}
                 </p>
@@ -213,15 +231,27 @@ function MainTaskPage() {
         </div> */}
       </div>
       <dialog id="modalEdit" className="modal">
-      <EditJob cJobId={jobId} singleJobInfo={singleJobInfo} triger={newTriger}/>
+        <EditJob
+          cJobId={jobId}
+          singleJobInfo={singleJobInfo}
+          triger={newTriger}
+        />
       </dialog>
       <dialog id="modalDelete" className="modal">
         <form method="dialog" className="modal-box">
           <button className="btn-ghost btn-sm btn-circle btn absolute right-2 top-2">
             ✕
           </button>
-          <h3 className="text-lg font-bold">Hello!</h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
+          <h3 className="text-lg font-bold text-error">DELETING JOB!</h3>
+          <p className="py-4 text-error">Are you sure?</p>
+          <div className="flex w-full justify-center">
+            <button
+              className="btn-xl btn-outline btn-error btn"
+              onClick={(e) => deleteJobHandler(e)}
+            >
+              Delete
+            </button>
+          </div>
         </form>
       </dialog>
     </>
